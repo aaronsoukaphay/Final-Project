@@ -66,7 +66,9 @@ export default function Catalog() {
         <Row>
           {products.map((product, i) => (
             <Col key={i} className="d-flex justify-content-center">
-              <Link to="/details/:productId" className="text-decoration-none">
+              <Link
+                to={`/details/${product.productId}`}
+                className="text-decoration-none">
                 <Card style={{ width: '18rem' }}>
                   <Card.Img variant="top" src={product.productImage} />
                   <Card.Body>
