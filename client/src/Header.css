@@ -1,7 +1,9 @@
-.banner {
-  background-color: black;
+.pageName {
+  font-family: Graduate, serif;
+  font-size: 2rem;
 }
 
-.nav {
-  background-color: yellow;
+.navName {
+  font-family: 'Noto Sans', sans-serif;
+  font-weight: 800;
 }

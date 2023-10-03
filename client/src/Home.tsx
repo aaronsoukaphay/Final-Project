@@ -32,7 +32,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="row text-center">
+      <div className="text-center my-3">
         <h3>Shop Your Favorite Teams!</h3>
       </div>
       <div className="row">

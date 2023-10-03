@@ -38,9 +38,6 @@ export default function Catalog() {
           throw new Error(`HTTP error! Status: ${response.status}`);
         const teamInfo = await response.json();
         setTeam(teamInfo);
-        // return () => {
-        //   setTeam(undefined);
-        // };
       } catch (err: any) {
         console.log(err.message);
         setError(err);
