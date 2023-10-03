@@ -27,6 +27,8 @@ export default function Header() {
     }
     if (teamId) {
       getTeamInfo();
+    } else {
+      setTeam(undefined);
     }
   }, [teamId]);
 
