@@ -2,7 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link, Outlet, useParams } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import { BsCart } from 'react-icons/bs';
-import { FaMagnifyingGlass } from 'react-icons/fa6';
+// import { FaSearch } from 'react-icons/fa';
 import './Header.css';
 import { useEffect, useState } from 'react';
 
@@ -76,9 +76,15 @@ function BottomBanner({ team }) {
           'TOUCHDOWN THREADS'
         )}
       </div>
-      <div className="me-4">
-        <FaMagnifyingGlass className="mx-3" />
-        <input type="text" name="search" placeholder="Search products..." />
+      <div className="me-2">
+        <div className="form">
+          {/* <FaSearch /> */}
+          <input
+            type="text"
+            className="form-control form-input"
+            placeholder="Search products..."
+          />
+        </div>
       </div>
     </div>
   );
@@ -90,6 +96,9 @@ function NavBar({ team }) {
     <div
       className="d-flex py-2 navName text-uppercase justify-content-evenly align-items-center"
       style={{ backgroundColor: backgroundColor }}>
+      <Link className="text-light text-decoration-none" to="/">
+        Home
+      </Link>
       <Link className="text-light text-decoration-none" to="/catalog/Jersey">
         Jerseys
       </Link>
