@@ -70,7 +70,11 @@ function BottomBanner({ team }) {
       className="d-flex justify-content-between align-items-center py-4"
       style={{ backgroundColor: backgroundColor }}>
       <div className="ms-4 pageName text-light">
-        {!team && 'TOUCHDOWN THREADS'}
+        {team ? (
+          <img src={team.teamLogo} width="50%" className="img-fluid " />
+        ) : (
+          'TOUCHDOWN THREADS'
+        )}
       </div>
       <div className="me-4">
         <FaMagnifyingGlass className="mx-3" />
