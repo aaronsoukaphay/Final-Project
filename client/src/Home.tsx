@@ -32,7 +32,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="row text-center">
+      <div className="text-center my-3">
         <h3>Shop Your Favorite Teams!</h3>
       </div>
       <div className="row">
@@ -60,7 +60,9 @@ export default function Home() {
               season in style!
             </p>
             <div>
-              <Button>Shop NFL Jerseys</Button>
+              <Link to="/catalog/Jersey">
+                <Button>Shop NFL Jerseys</Button>
+              </Link>
             </div>
           </div>
         </div>

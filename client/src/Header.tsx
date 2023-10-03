@@ -27,6 +27,8 @@ export default function Header() {
     }
     if (teamId) {
       getTeamInfo();
+    } else {
+      setTeam(undefined);
     }
   }, [teamId]);
 
@@ -39,7 +41,7 @@ export default function Header() {
 
   return (
     <div>
-      <TopBanner />
+      <TopBanner team={team} />
       <BottomBanner team={team} />
       <NavBar team={team} />
       <Outlet />
@@ -47,13 +49,14 @@ export default function Header() {
   );
 }
 
-function TopBanner() {
+function TopBanner({ team }) {
   return (
-    <div className="row d-flex justify-content-end my-1">
-      <div className="col-2 d-flex justify-content-center">
+    <div className="d-flex align-items-center">
+      <div className="me-auto ps-4 pageName">{team && 'TOUCHDOWN THREADS'}</div>
+      <div className="p-2">
         <Button>Sign In</Button>
       </div>
-      <div className="col-1 d-flex justify-content-start align-items-center">
+      <div className="mx-4">
         <BsCart />
       </div>
     </div>
@@ -61,14 +64,19 @@ function TopBanner() {
 }
 
 function BottomBanner({ team }) {
-  const backgroundColor = team ? team.bannerColor : 'grey';
+  const backgroundColor = team ? team.bannerColor : 'darkgrey';
   return (
-    <div className="row mt-2 py-4" style={{ backgroundColor: backgroundColor }}>
-      <div className="col-5 d-flex justify-content-center align-items-center">
-        <h4>TOUCHDOWN THREADS</h4>
+    <div
+      className="d-flex justify-content-between align-items-center py-4"
+      style={{ backgroundColor: backgroundColor }}>
+      <div className="ms-4 pageName text-light">
+        {team ? (
+          <img src={team.teamLogo} width="50%" className="img-fluid " />
+        ) : (
+          'TOUCHDOWN THREADS'
+        )}
       </div>
-      <div className="col"></div>
-      <div className="col d-flex align-items-center">
+      <div className="me-4">
         <FaMagnifyingGlass className="mx-3" />
         <input type="text" name="search" placeholder="Search products..." />
       </div>
@@ -77,16 +85,20 @@ function BottomBanner({ team }) {
 }
 
 function NavBar({ team }) {
-  const backgroundColor = team ? team.navColor : 'darkgrey';
+  const backgroundColor = team ? team.navColor : 'grey';
   return (
-    <div className="row" style={{ backgroundColor: backgroundColor }}>
-      <div className="col"></div>
-      <div className="col-5 d-flex justify-content-between py-2">
-        <Link to="/catalog/Jersey">Jerseys</Link>
-        <Link to="/catalog/men">Men</Link>
-        <Link to="/catalog/women">Women</Link>
-      </div>
-      <div className="col"></div>
+    <div
+      className="d-flex py-2 navName text-uppercase justify-content-evenly align-items-center"
+      style={{ backgroundColor: backgroundColor }}>
+      <Link className="text-light text-decoration-none" to="/catalog/Jersey">
+        Jerseys
+      </Link>
+      <Link className="text-light text-decoration-none" to="/catalog/men">
+        <div>Men</div>
+      </Link>
+      <Link className="text-light text-decoration-none" to="/catalog/women">
+        <div>Women</div>
+      </Link>
     </div>
   );
 }
