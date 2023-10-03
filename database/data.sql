@@ -19,7 +19,7 @@ VALUES
     ('Buffalo Bills', '/images/buffalo-bills-logo.svg', 'blue', 'red'),
     ('Carolina Panthers', '', 'blue', 'black'),
     ('Chicago Bears', '', 'navy', 'orange'),
-    ('Cincinnati Bengals', '/cincinnati-bengals-logo.svg', 'black', 'orange'),
+    ('Cincinnati Bengals', '/images/cincinnati-bengals-logo.svg', 'black', 'orange'),
     ('Cleveland Browns', '', 'orange', 'brown'),
     ('Dallas Cowboys', '', 'blue', 'silver'),
     ('Denver Broncos', '', 'orange', 'blue'),
@@ -28,7 +28,7 @@ VALUES
     ('Houston Texans', '', 'navy', 'red'),
     ('Indianapolis Colts', '', 'blue', 'white'),
     ('Jacksonville Jaguars', '', 'teal', 'black'),
-    ('Kansas City Chiefs', 'kansas-city-chiefs-logo.svg', 'red', 'gold'),
+    ('Kansas City Chiefs', '/images/kansas-city-chiefs-logo.svg', 'red', 'gold'),
     ('Las Vegas Raiders', '', 'black', 'silver'),
     ('Los Angeles Chargers', '', 'navy', 'gold'),
     ('Los Angeles Rams', '', 'blue', 'gold'),
@@ -38,9 +38,9 @@ VALUES
     ('New Orleans Saints', '', 'gold', 'black'),
     ('New York Giants', '', 'blue', 'red'),
     ('New York Jets', '', 'green', 'white'),
-    ('Philadelphia Eagles', 'philadelphia-eagles-logo.svg', 'green', 'silver'),
+    ('Philadelphia Eagles', '/images/philadelphia-eagles-logo.svg', 'green', 'silver'),
     ('Pittsburgh Steelers', '', 'black', 'gold'),
-    ('San Francisco 49ers', 'san-francisco-49ers-logo.svg', 'red', 'gold'),
+    ('San Francisco 49ers', '/images/san-francisco-49ers-logo.svg', 'red', 'gold'),
     ('Seattle Seahawks', '', 'navy', 'green'),
     ('Tampa Bay Buccaneers', '', 'red', 'pewter'),
     ('Tennessee Titans', '', 'navy', 'light blue'),
@@ -281,7 +281,8 @@ VALUES
     (31, 7, 'Jersey', '/images/joe-burrow.webp', 'Joe Burrow Cincinnati Bengals Football Jersey', 130, 'Male'),
     (16, 4, 'Jersey', '/images/josh-allen.webp', 'Josh Allen Buffalo Bills Football Jersey', 130, 'Male'),
     (11, 3, 'Jersey', '/images/lamar-jackson.webp', 'Lamar Jackson Baltimore Ravens Football Jersey', 130, 'Male'),
-    (137, 28, 'Jersey', '/images/george-kittle.webp', 'George Kittle San Francisco 49ers Football Jersey', 130, 'Male');
+    (137, 28, 'Jersey', '/images/george-kittle.webp', 'George Kittle San Francisco 49ers Football Jersey', 130, 'Male'),
+    (17, 4, 'Jersey', '/images/stefon-diggs.webp', 'Stefon Diggs Buffalo Bills Football Jersey', 130, 'Male');
 
 -- Insert data into the "carts" table
 INSERT INTO carts ("customerId", "productId", "size", "quantity")
