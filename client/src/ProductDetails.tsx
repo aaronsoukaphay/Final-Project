@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import './ProductDetails.css';
 import { useParams, Link } from 'react-router-dom';
+import { Dropdown, DropdownButton } from 'react-bootstrap';
 
 // type Product = {
 //   category: string;
@@ -17,6 +18,7 @@ export default function ProductDetails() {
   const { productId } = useParams();
   const [product, setProduct] = useState<any>({});
   const [error, setError] = useState<any>();
+  const sizes = ['S', 'M', 'L', 'XL'];
 
   useEffect(() => {
     async function getProductDetails() {
@@ -58,18 +60,27 @@ export default function ProductDetails() {
             <div className="mb-4 heading fs-4">{product.productName}</div>
             <div className="heading">{`Price: $${product.price}.00`}</div>
             <div className="bg-secondary p-4">
-              <div className="subheading">Size</div>
+              <div className="py-2 subheading">Size</div>
               <div>
-                <button>S</button>
-                <button>M</button>
-                <button>L</button>
-                <button>XL</button>
+                {sizes.map((size, i) => (
+                  <button key={i + 1} className="px-2 me-4">
+                    {size}
+                  </button>
+                ))}
               </div>
-              <div className="mt-4">
-                <div className="text">Quantity</div>
-                <button>Quantity</button>
+              <div className="py-2 subheading">Quantity</div>
+              <div className="d-flex justify-content-between">
+                <DropdownButton id="dropdown-basic-button" title="1">
+                  <Dropdown.Item href="#/quantity-1">1</Dropdown.Item>
+                  <Dropdown.Item href="#/quantity-2">2</Dropdown.Item>
+                  <Dropdown.Item href="#/quantity-3">3</Dropdown.Item>
+                  <Dropdown.Item href="#/quantity-4">4</Dropdown.Item>
+                  <Dropdown.Item href="#/quantity-5">5</Dropdown.Item>
+                </DropdownButton>
                 <Link to="/cart">
-                  <button>Add to cart</button>
+                  <button style={{ width: '300px', height: '3rem' }}>
+                    Add to cart
+                  </button>
                 </Link>
               </div>
             </div>

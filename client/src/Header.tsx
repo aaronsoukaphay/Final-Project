@@ -64,14 +64,14 @@ function TopBanner({ team }) {
 }
 
 function BottomBanner({ team }) {
-  const backgroundColor = team ? team.bannerColor : 'darkgrey';
+  const backgroundColor = team ? team.bannerColor : 'rgb(244,245,245)';
   return (
     <div
-      className="d-flex justify-content-between align-items-center py-4"
+      className="d-flex justify-content-around align-items-center py-4"
       style={{ backgroundColor: backgroundColor }}>
-      <div className="ms-4 pageName text-light">
+      <div className="pageName text-dark">
         {team ? (
-          <img src={team.teamLogo} width="50%" className="img-fluid " />
+          <img src={team.teamLogo} width="60%" className="img-fluid " />
         ) : (
           'TOUCHDOWN THREADS'
         )}
@@ -91,7 +91,7 @@ function BottomBanner({ team }) {
 }
 
 function NavBar({ team }) {
-  const backgroundColor = team ? team.navColor : 'grey';
+  const backgroundColor = team ? team.navColor : 'rgb(54,52,54)';
   return (
     <div
       className="d-flex py-2 navName text-uppercase justify-content-evenly align-items-center"
