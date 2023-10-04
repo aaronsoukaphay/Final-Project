@@ -72,7 +72,7 @@ app.get('/api/products/:category', async (req, res, next) => {
 app.get('/api/products/teams/:teamId', async (req, res, next) => {
   try {
     const teamId = Number(req.params.teamId);
-    validateTeamId(teamId);
+    validateId(teamId);
     const sql = `
       select *
         from "products"
@@ -91,7 +91,7 @@ app.get('/api/products/teams/:teamId', async (req, res, next) => {
 app.get('/api/teams/:teamId', async (req, res, next) => {
   try {
     const teamId = Number(req.params.teamId);
-    validateTeamId(teamId);
+    validateId(teamId);
     const sql = `
       select *
         from "teams"
@@ -106,17 +106,36 @@ app.get('/api/teams/:teamId', async (req, res, next) => {
   }
 });
 
-function validateTeamId(teamId: number) {
-  if (!Number.isInteger(teamId) || teamId <= 0) {
-    throw new ClientError(400, 'teamId must be a positive integer');
+// GETS details from one product
+app.get('/api/products/selected/:productId', async (req, res, next) => {
+  try {
+    const productId = Number(req.params.productId);
+    validateId(productId);
+    const sql = `
+      select *
+        from "products"
+        where "productId" = $1
+    `;
+    const result = await db.query(sql, [productId]);
+    const teamInfo = result.rows[0];
+    validateResult(teamInfo, productId);
+    res.json(teamInfo);
+  } catch (err: any) {
+    next(err);
+  }
+});
+
+function validateId(id: number) {
+  if (!Number.isInteger(id) || id <= 0) {
+    throw new ClientError(400, 'id must be a positive integer');
   }
 }
 
-function validateResult(result: object, teamId: number) {
+function validateResult(result: object, id: number) {
   if (!result) {
     throw new ClientError(
       404,
-      `cannot find products for team with teamId: ${teamId}`
+      `cannot find products for team with teamId: ${id}`
     );
   }
 }

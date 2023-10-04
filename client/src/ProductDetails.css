@@ -1,0 +1,14 @@
+.heading {
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 700;
+}
+
+.subheading {
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 400;
+}
+
+.text {
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 200;
+}

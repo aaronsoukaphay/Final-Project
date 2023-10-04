@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Card, Row, Col, Container } from 'react-bootstrap';
 import { useParams, Link } from 'react-router-dom';
+import './Catalog.css';
 
 export default function Catalog() {
   const [products, setProducts] = useState<any>([]);
@@ -60,13 +61,17 @@ export default function Catalog() {
   return (
     <>
       <div className="p-4">
-        <h3>{team ? team.teamName : 'PRODUCTS'}</h3>
+        <h3 className="catalogHeading text-uppercase">
+          {team ? team.teamName : 'PRODUCTS'}
+        </h3>
       </div>
       <Container>
         <Row>
           {products.map((product, i) => (
             <Col key={i} className="d-flex justify-content-center">
-              <Link to="/details/:productId" className="text-decoration-none">
+              <Link
+                to={`/details/${product.productId}`}
+                className="text-decoration-none">
                 <Card style={{ width: '18rem' }}>
                   <Card.Img variant="top" src={product.productImage} />
                   <Card.Body>

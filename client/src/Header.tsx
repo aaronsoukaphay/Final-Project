@@ -2,7 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link, Outlet, useParams } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import { BsCart } from 'react-icons/bs';
-import { FaMagnifyingGlass } from 'react-icons/fa6';
+// import { FaSearch } from 'react-icons/fa';
 import './Header.css';
 import { useEffect, useState } from 'react';
 
@@ -64,32 +64,41 @@ function TopBanner({ team }) {
 }
 
 function BottomBanner({ team }) {
-  const backgroundColor = team ? team.bannerColor : 'darkgrey';
+  const backgroundColor = team ? team.bannerColor : 'rgb(244,245,245)';
   return (
     <div
-      className="d-flex justify-content-between align-items-center py-4"
+      className="d-flex justify-content-around align-items-center py-4"
       style={{ backgroundColor: backgroundColor }}>
-      <div className="ms-4 pageName text-light">
+      <div className="pageName text-dark">
         {team ? (
-          <img src={team.teamLogo} width="50%" className="img-fluid " />
+          <img src={team.teamLogo} width="60%" className="img-fluid " />
         ) : (
           'TOUCHDOWN THREADS'
         )}
       </div>
-      <div className="me-4">
-        <FaMagnifyingGlass className="mx-3" />
-        <input type="text" name="search" placeholder="Search products..." />
+      <div className="me-2">
+        <div className="form">
+          {/* <FaSearch /> */}
+          <input
+            type="text"
+            className="form-control form-input"
+            placeholder="Search products..."
+          />
+        </div>
       </div>
     </div>
   );
 }
 
 function NavBar({ team }) {
-  const backgroundColor = team ? team.navColor : 'grey';
+  const backgroundColor = team ? team.navColor : 'rgb(54,52,54)';
   return (
     <div
       className="d-flex py-2 navName text-uppercase justify-content-evenly align-items-center"
       style={{ backgroundColor: backgroundColor }}>
+      <Link className="text-light text-decoration-none" to="/">
+        Home
+      </Link>
       <Link className="text-light text-decoration-none" to="/catalog/Jersey">
         Jerseys
       </Link>
