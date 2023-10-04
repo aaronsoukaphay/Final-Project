@@ -125,10 +125,39 @@ app.get('/api/products/selected/:productId', async (req, res, next) => {
   }
 });
 
+// POSTS details from selected product into carts
+app.post('/api/carts', async (req, res, next) => {
+  try {
+    const { productId, size, quantity } = req.body;
+    validateId(productId);
+    validateReq(size, quantity);
+    const sql = `
+      insert into "carts" ("productId", "size", "quantity")
+        values ($1, $2, $3)
+        returning *
+    `;
+    const result = await db.query(sql, [productId, size, quantity]);
+    const teamInfo = result.rows[0];
+    validateResult(teamInfo, productId);
+    res.json(teamInfo);
+  } catch (err: any) {
+    next(err);
+  }
+});
+
 function validateId(id: number) {
   if (!Number.isInteger(id) || id <= 0) {
     throw new ClientError(400, 'id must be a positive integer');
   }
+}
+
+const sizes = ['S', 'M', 'L', 'XL'];
+
+function validateReq(size: string, quantity: number) {
+  if (!sizes.includes(size))
+    throw new ClientError(400, `${size} is not a valid size`);
+  if (quantity <= 0 || !Number.isInteger(quantity))
+    throw new ClientError(400, 'quantity must be a positive integer');
 }
 
 function validateResult(result: object, id: number) {
