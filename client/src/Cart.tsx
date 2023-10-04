@@ -5,10 +5,10 @@ export default function Cart() {
     <div className="p-5 d-flex">
       <div className="col-7 me-auto">
         <h2>Order Details</h2>
-        <div>Your Order will be with you soon</div>
+        <div>Your order will be with you soon.</div>
         <div className="d-flex mt-4">
           <div className="col-3 d-flex flex-column">
-            <div className="text-center border-bottom border-2 border-dark">
+            <div className="text-center border-bottom border-2 border-dark pb-1">
               Product
             </div>
             <div className="text-center mt-2">
@@ -16,7 +16,7 @@ export default function Cart() {
             </div>
           </div>
           <div className="d-flex flex-column">
-            <div className="border-bottom border-2 border-dark">
+            <div className="border-bottom border-2 border-dark pb-1">
               Description
             </div>
             <div className="d-flex flex-column mt-2">
@@ -25,7 +25,9 @@ export default function Cart() {
             </div>
           </div>
           <div className="col-2 d-flex flex-column">
-            <div className="border-bottom border-2 border-dark">Quantity</div>
+            <div className="border-bottom border-2 border-dark pb-1">
+              Quantity
+            </div>
             <div className="mt-2">
               <DropdownButton id="dropdown-basic-button" title="1">
                 <Dropdown.Item href="#/quantity-1">1</Dropdown.Item>
@@ -37,7 +39,9 @@ export default function Cart() {
             </div>
           </div>
           <div className="col-2 d-flex flex-column">
-            <div className="border-bottom border-2 border-dark">Subtotal</div>
+            <div className="border-bottom border-2 border-dark pb-1">
+              Subtotal
+            </div>
             <div className="mt-2">
               <div>$130.00</div>
             </div>

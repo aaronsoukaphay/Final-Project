@@ -7,6 +7,7 @@ import Catalog from './Catalog';
 import ProductDetails from './ProductDetails';
 import Cart from './Cart';
 import NotFound from './NotFound';
+import SignIn from './SignIn';
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
         <Route path="cart" element={<Cart />} />
         <Route path="*" element={<NotFound />} />
       </Route>
+      <Route path="sign-in" element={<SignIn />} />
     </Routes>
   );
 }

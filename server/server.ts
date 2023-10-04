@@ -137,9 +137,9 @@ app.post('/api/carts', async (req, res, next) => {
         returning *
     `;
     const result = await db.query(sql, [productId, size, quantity]);
-    const teamInfo = result.rows[0];
-    validateResult(teamInfo, productId);
-    res.json(teamInfo);
+    const cartInfo = result.rows[0];
+    validateResult(cartInfo, productId);
+    res.json(cartInfo);
   } catch (err: any) {
     next(err);
   }

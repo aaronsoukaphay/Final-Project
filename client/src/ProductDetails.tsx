@@ -18,6 +18,8 @@ export default function ProductDetails() {
   const { productId } = useParams();
   const [product, setProduct] = useState<any>({});
   const [error, setError] = useState<any>();
+  const [size, setSize] = useState('');
+  const [quantity, setQuantity] = useState(0);
   const sizes = ['S', 'M', 'L', 'XL'];
 
   useEffect(() => {
@@ -46,6 +48,42 @@ export default function ProductDetails() {
     );
   }
 
+  // POSTS cart info into carts table
+
+  type Data = {
+    productId: number;
+    size: string;
+    quantity: number;
+    customerId: null;
+  };
+
+  async function addToCart(data: Data) {
+    try {
+      const request = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      };
+      const response = await fetch('/api/carts', request);
+      if (!response.ok)
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      const cartData = await response.json();
+      console.log('Success!:', cartData);
+    } catch (err: any) {
+      console.log(err.message);
+      setError(err);
+    }
+  }
+
+  const cartInfo = {
+    productId: Number(productId),
+    size,
+    quantity,
+    customerId: null,
+  };
+
   return (
     <>
       <div className="container">
@@ -63,26 +101,43 @@ export default function ProductDetails() {
               <div className="py-2 subheading">Size</div>
               <div>
                 {sizes.map((size, i) => (
-                  <button key={i + 1} className="px-2 me-4">
+                  <button
+                    key={i + 1}
+                    className="px-2 me-4"
+                    onClick={() => setSize(size)}>
                     {size}
                   </button>
                 ))}
               </div>
               <div className="py-2 subheading">Quantity</div>
               <div className="d-flex justify-content-between">
-                <DropdownButton id="dropdown-basic-button" title="1">
-                  <Dropdown.Item href="#/quantity-1">1</Dropdown.Item>
-                  <Dropdown.Item href="#/quantity-2">2</Dropdown.Item>
-                  <Dropdown.Item href="#/quantity-3">3</Dropdown.Item>
-                  <Dropdown.Item href="#/quantity-4">4</Dropdown.Item>
-                  <Dropdown.Item href="#/quantity-5">5</Dropdown.Item>
+                <DropdownButton id="dropdown-basic-button" title={quantity}>
+                  <Dropdown.Item onClick={() => setQuantity(1)}>
+                    1
+                  </Dropdown.Item>
+                  <Dropdown.Item onClick={() => setQuantity(2)}>
+                    2
+                  </Dropdown.Item>
+                  <Dropdown.Item onClick={() => setQuantity(3)}>
+                    3
+                  </Dropdown.Item>
+                  <Dropdown.Item onClick={() => setQuantity(4)}>
+                    4
+                  </Dropdown.Item>
+                  <Dropdown.Item onClick={() => setQuantity(5)}>
+                    5
+                  </Dropdown.Item>
                 </DropdownButton>
                 <Link to="/cart">
-                  <button style={{ width: '300px', height: '3rem' }}>
+                  <button
+                    style={{ width: '300px', height: '3rem' }}
+                    onClick={() => addToCart(cartInfo)}>
                     Add to cart
                   </button>
                 </Link>
               </div>
+              <div>Size:{size}</div>
+              <div>Quantity:{quantity}</div>
             </div>
           </div>
         </div>

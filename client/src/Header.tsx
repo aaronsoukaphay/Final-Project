@@ -54,10 +54,14 @@ function TopBanner({ team }) {
     <div className="d-flex align-items-center">
       <div className="me-auto ps-4 pageName">{team && 'TOUCHDOWN THREADS'}</div>
       <div className="p-2">
-        <Button>Sign In</Button>
+        <Link to="/sign-in">
+          <Button>Sign In</Button>
+        </Link>
       </div>
       <div className="mx-4">
-        <BsCart />
+        <Link to="/cart">
+          <BsCart />
+        </Link>
       </div>
     </div>
   );
