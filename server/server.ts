@@ -125,18 +125,64 @@ app.get('/api/products/selected/:productId', async (req, res, next) => {
   }
 });
 
+// POSTS details from selected product into carts
+app.post('/api/carts', async (req, res, next) => {
+  try {
+    const { customerId, productId, size, quantity } = req.body;
+    validateId(productId);
+    validateReq(size, quantity);
+    const sql = `
+      insert into "carts" ("customerId", "productId", "size", "quantity")
+        values ($1, $2, $3, $4)
+        returning *
+    `;
+    const result = await db.query(sql, [customerId, productId, size, quantity]);
+    const cartInfo = result.rows[0];
+    validateResult(cartInfo, productId);
+    res.json(cartInfo);
+  } catch (err: any) {
+    next(err);
+  }
+});
+
+// GETS product information JOINED with quantity and subtotal for the cart
+app.get('/api/carts/:customerId', async (req, res, next) => {
+  try {
+    const customerId = Number(req.params.customerId);
+    validateId(customerId);
+    const sql = `
+      select "p"."productImage", "p"."productName", "p"."price", "c"."size", "c"."quantity"
+        from "products" as "p"
+        join "carts" as "c" using ("productId")
+        where "customerId" = $1
+    `;
+    const result = await db.query(sql, [customerId]);
+    const cartInfo = result.rows;
+    validateResult(cartInfo[0], customerId);
+    res.json(cartInfo);
+  } catch (err: any) {
+    next(err);
+  }
+});
+
 function validateId(id: number) {
   if (!Number.isInteger(id) || id <= 0) {
     throw new ClientError(400, 'id must be a positive integer');
   }
 }
 
+const sizes = ['S', 'M', 'L', 'XL'];
+
+function validateReq(size: string, quantity: number) {
+  if (!sizes.includes(size))
+    throw new ClientError(400, `${size} is not a valid size`);
+  if (quantity <= 0 || !Number.isInteger(quantity))
+    throw new ClientError(400, 'quantity must be a positive integer');
+}
+
 function validateResult(result: object, id: number) {
   if (!result) {
-    throw new ClientError(
-      404,
-      `cannot find products for team with teamId: ${id}`
-    );
+    throw new ClientError(404, `cannot find data for data with id: ${id}`);
   }
 }
 

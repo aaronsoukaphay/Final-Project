@@ -19,7 +19,7 @@ VALUES
     ('Buffalo Bills', '/images/buffalo-bills-logo.svg', 'rgb(1,51,141)', 'rgb(198,12,48)'),
     ('Carolina Panthers', '', 'blue', 'black'),
     ('Chicago Bears', '', 'navy', 'orange'),
-    ('Cincinnati Bengals', '/images/cincinnati-bengals-logo.svg', 'black', 'FB4F14'),
+    ('Cincinnati Bengals', '/images/cincinnati-bengals-logo.svg', 'black', 'rgb(251,79,20)'),
     ('Cleveland Browns', '', 'orange', 'brown'),
     ('Dallas Cowboys', '', 'blue', 'silver'),
     ('Denver Broncos', '', 'orange', 'blue'),
