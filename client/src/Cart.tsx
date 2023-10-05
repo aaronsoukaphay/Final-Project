@@ -5,7 +5,8 @@ import { useParams } from 'react-router-dom';
 export default function Cart() {
   const [error, setError] = useState<any>();
   const { customerId } = useParams();
-  const [items, setItems] = useState<any>([]);
+  const [items, setItems] = useState<any[]>([]);
+  const [subtotal, setSubtotal] = useState<number>(0);
 
   useEffect(() => {
     async function getCartInfo() {
@@ -34,6 +35,28 @@ export default function Cart() {
     );
   }
 
+  async function updateCart(cartId, size, quantity) {
+    try {
+      const request = {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ size, quantity }),
+      };
+      const response = await fetch(`/api/carts/${cartId}`, request);
+      if (!response.ok) throw new Error(`HTTP error!: ${response.status}`);
+      const newCart = await response.json();
+      if (newCart) console.log('Cart has been updated!', newCart);
+      const updatedCart = items.map((i) =>
+        i.cartId === cartId ? { ...i, size, quantity } : i
+      );
+      console.log('updating with', updatedCart);
+      setItems(updatedCart);
+    } catch (err: any) {
+      console.log(err.message);
+      setError(err);
+    }
+  }
+
   return (
     <div className="p-5 d-flex">
       <div className="col-7 me-auto">
@@ -57,7 +80,26 @@ export default function Cart() {
             {items.map((item, i) => (
               <div key={i} className="d-flex flex-column mt-2 pb-5">
                 <div>{item.productName}</div>
-                <div>{`Size: ${item.size}`}</div>
+                <DropdownButton id="dropdown-basic-button" title={item.size}>
+                  <Dropdown.Item
+                    onClick={() => updateCart(item.cartId, 'S', item.quantity)}>
+                    S
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => updateCart(item.cartId, 'M', item.quantity)}>
+                    M
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => updateCart(item.cartId, 'L', item.quantity)}>
+                    L
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() =>
+                      updateCart(item.cartId, 'XL', item.quantity)
+                    }>
+                    XL
+                  </Dropdown.Item>
+                </DropdownButton>
               </div>
             ))}
           </div>
@@ -70,11 +112,26 @@ export default function Cart() {
                 <DropdownButton
                   id="dropdown-basic-button"
                   title={item.quantity}>
-                  <Dropdown.Item href="#/quantity-1">1</Dropdown.Item>
-                  <Dropdown.Item href="#/quantity-2">2</Dropdown.Item>
-                  <Dropdown.Item href="#/quantity-3">3</Dropdown.Item>
-                  <Dropdown.Item href="#/quantity-4">4</Dropdown.Item>
-                  <Dropdown.Item href="#/quantity-5">5</Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => updateCart(item.cartId, item.size, 1)}>
+                    1
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => updateCart(item.cartId, item.size, 2)}>
+                    2
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => updateCart(item.cartId, item.size, 3)}>
+                    3
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => updateCart(item.cartId, item.size, 4)}>
+                    4
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => updateCart(item.cartId, item.size, 5)}>
+                    5
+                  </Dropdown.Item>
                 </DropdownButton>
               </div>
             ))}
@@ -96,7 +153,7 @@ export default function Cart() {
         <div className="d-flex flex-column">
           <div className="d-flex">
             <div className="me-auto">Subtotal: 2 items </div>
-            <div>$260.00</div>
+            <div>{`$${subtotal}.00`}</div>
           </div>
           <div className="d-flex py-3">
             <div className="me-auto">Shipping</div>

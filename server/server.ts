@@ -165,7 +165,7 @@ app.get('/api/carts/customer/:customerId', async (req, res, next) => {
   }
 });
 
-// PUTS updated quantity into cart table
+// PUTS updated size and quantity into cart table
 app.put('/api/carts/:cartId', async (req, res, next) => {
   try {
     const cartId = Number(req.params.cartId);
