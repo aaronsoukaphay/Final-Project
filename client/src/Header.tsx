@@ -59,7 +59,7 @@ function TopBanner({ team }) {
         </Link>
       </div>
       <div className="mx-4">
-        <Link to="/cart">
+        <Link to="/cart/customer/1">
           <BsCart />
         </Link>
       </div>

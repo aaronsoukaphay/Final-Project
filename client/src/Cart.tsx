@@ -1,6 +1,39 @@
+import { useEffect, useState } from 'react';
 import { DropdownButton, Dropdown } from 'react-bootstrap';
+import { useParams } from 'react-router-dom';
 
 export default function Cart() {
+  const [error, setError] = useState<any>();
+  const { customerId } = useParams();
+  const [items, setItems] = useState<any>([]);
+
+  useEffect(() => {
+    async function getCartInfo() {
+      setError(undefined);
+      try {
+        const response = await fetch(`/api/carts/${customerId}`);
+        if (!response.ok) throw new Error(`HTTP error!: ${response.status}`);
+        const cartContents = await response.json();
+        setItems(cartContents);
+      } catch (err: any) {
+        console.log(err.message);
+        setError(err);
+      }
+    }
+    if (customerId) {
+      getCartInfo();
+    } else {
+      setItems([]);
+    }
+  }, [customerId]);
+
+  if (error || !customerId) {
+    console.error('Fetch error:', error);
+    return (
+      <p>Error! {error instanceof Error ? error.message : 'Unknown Error'}</p>
+    );
+  }
+
   return (
     <div className="p-5 d-flex">
       <div className="col-7 me-auto">
@@ -11,40 +44,50 @@ export default function Cart() {
             <div className="text-center border-bottom border-2 border-dark pb-1">
               Product
             </div>
-            <div className="text-center mt-2">
-              <img src="/images/stefon-diggs.webp" width="60%" />
-            </div>
+            {items.map((item, i) => (
+              <div key={i} className="text-center mt-2">
+                <img src={item.productImage} width="60%" />
+              </div>
+            ))}
           </div>
-          <div className="d-flex flex-column">
+          <div className="d-flex flex-column justify-content-between">
             <div className="border-bottom border-2 border-dark pb-1">
               Description
             </div>
-            <div className="d-flex flex-column mt-2">
-              <div>Stefon Diggs Buffalo Bills Football Jersey</div>
-              <div>Size: S</div>
-            </div>
+            {items.map((item, i) => (
+              <div key={i} className="d-flex flex-column mt-2 pb-5">
+                <div>{item.productName}</div>
+                <div>{`Size: ${item.size}`}</div>
+              </div>
+            ))}
           </div>
-          <div className="col-2 d-flex flex-column">
+          <div className="col-2 d-flex flex-column justify-content-between">
             <div className="border-bottom border-2 border-dark pb-1">
               Quantity
             </div>
-            <div className="mt-2">
-              <DropdownButton id="dropdown-basic-button" title="1">
-                <Dropdown.Item href="#/quantity-1">1</Dropdown.Item>
-                <Dropdown.Item href="#/quantity-2">2</Dropdown.Item>
-                <Dropdown.Item href="#/quantity-3">3</Dropdown.Item>
-                <Dropdown.Item href="#/quantity-4">4</Dropdown.Item>
-                <Dropdown.Item href="#/quantity-5">5</Dropdown.Item>
-              </DropdownButton>
-            </div>
+            {items.map((item, i) => (
+              <div key={i} className="mt-2 mb-5 pb-5">
+                <DropdownButton
+                  id="dropdown-basic-button"
+                  title={item.quantity}>
+                  <Dropdown.Item href="#/quantity-1">1</Dropdown.Item>
+                  <Dropdown.Item href="#/quantity-2">2</Dropdown.Item>
+                  <Dropdown.Item href="#/quantity-3">3</Dropdown.Item>
+                  <Dropdown.Item href="#/quantity-4">4</Dropdown.Item>
+                  <Dropdown.Item href="#/quantity-5">5</Dropdown.Item>
+                </DropdownButton>
+              </div>
+            ))}
           </div>
-          <div className="col-2 d-flex flex-column">
+          <div className="col-2 d-flex flex-column justify-content-between">
             <div className="border-bottom border-2 border-dark pb-1">
               Subtotal
             </div>
-            <div className="mt-2">
-              <div>$130.00</div>
-            </div>
+            {items.map((item, i) => (
+              <div key={i} className="mt-2 pb-5 mb-5">
+                <div>{`$${item.price}.00`}</div>
+              </div>
+            ))}
           </div>
         </div>
       </div>

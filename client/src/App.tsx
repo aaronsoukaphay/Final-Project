@@ -17,10 +17,10 @@ export default function App() {
         <Route path="catalog/:category" element={<Catalog />} />
         <Route path="catalog/teams/:teamId" element={<Catalog />} />
         <Route path="details/:productId" element={<ProductDetails />} />
-        <Route path="cart" element={<Cart />} />
+        <Route path="cart/customer/:customerId" element={<Cart />} />
+        <Route path="sign-in" element={<SignIn />} />
         <Route path="*" element={<NotFound />} />
       </Route>
-      <Route path="sign-in" element={<SignIn />} />
     </Routes>
   );
 }

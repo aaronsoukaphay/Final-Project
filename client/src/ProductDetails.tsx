@@ -54,7 +54,7 @@ export default function ProductDetails() {
     productId: number;
     size: string;
     quantity: number;
-    customerId: null;
+    customerId: number;
   };
 
   async function addToCart(data: Data) {
@@ -81,7 +81,7 @@ export default function ProductDetails() {
     productId: Number(productId),
     size,
     quantity,
-    customerId: null,
+    customerId: 1,
   };
 
   return (
@@ -128,7 +128,7 @@ export default function ProductDetails() {
                     5
                   </Dropdown.Item>
                 </DropdownButton>
-                <Link to="/cart">
+                <Link to={`/cart/customer/${cartInfo.customerId}`}>
                   <button
                     style={{ width: '300px', height: '3rem' }}
                     onClick={() => addToCart(cartInfo)}>
