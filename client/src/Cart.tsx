@@ -11,7 +11,7 @@ export default function Cart() {
     async function getCartInfo() {
       setError(undefined);
       try {
-        const response = await fetch(`/api/carts/${customerId}`);
+        const response = await fetch(`/api/carts/customer/${customerId}`);
         if (!response.ok) throw new Error(`HTTP error!: ${response.status}`);
         const cartContents = await response.json();
         setItems(cartContents);
