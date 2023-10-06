@@ -12,8 +12,9 @@ export default function Cart() {
 
   const calculateSubtotal = useCallback(() => {
     let subtotal = 0;
-    items.forEach((item) => (subtotal += item.price));
-    setSubtotal(subtotal);
+    items.forEach((item) => (subtotal += item.price * item.quantity));
+    const fixedSubtotal = subtotal;
+    setSubtotal(fixedSubtotal);
   }, [items]);
 
   const calculateTaxes = useCallback(() => {
@@ -163,7 +164,7 @@ export default function Cart() {
             </div>
             {items.map((item, i) => (
               <div key={i} className="mt-2 pb-5 mb-5">
-                <div>{`$${item.price}.00`}</div>
+                <div>{`$${(item.price * item.quantity).toFixed(2)}`}</div>
               </div>
             ))}
           </div>
@@ -174,15 +175,15 @@ export default function Cart() {
         <div className="d-flex flex-column">
           <div className="d-flex">
             <div className="me-auto">{`Subtotal (${items.length} items)`}</div>
-            <div>{`$${subtotal}.00`}</div>
+            <div>{`$${subtotal.toFixed(2)}`}</div>
           </div>
           <div className="d-flex py-3">
             <div className="me-auto">Taxes</div>
-            <div>{`$${taxes}`}</div>
+            <div>{`$${taxes.toFixed(2)}`}</div>
           </div>
           <div className="d-flex py-4 border-top">
             <h4 className="me-auto">Total</h4>
-            <div>{`$${total}`}</div>
+            <div>{`$${total.toFixed(2)}`}</div>
           </div>
           <button style={{ height: '3rem' }}>Checkout</button>
         </div>
