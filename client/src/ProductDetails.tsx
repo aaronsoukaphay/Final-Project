@@ -58,6 +58,7 @@ export default function ProductDetails() {
   };
 
   async function addToCart(data: Data) {
+    if (cartInfo.size === '' || cartInfo.quantity === 0) return;
     try {
       const request = {
         method: 'POST',

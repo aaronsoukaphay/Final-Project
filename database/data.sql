@@ -291,7 +291,7 @@ VALUES
     (2, 5, 'S', 1);
 
 -- Insert data into the "customers" table
-INSERT INTO customers ("cartId", "firstName", "lastName")
+INSERT INTO customers ( "firstName", "lastName")
 VALUES
-    (1, 'Alice', 'Johnson'),
-    (2, 'Bob', 'Smith');
+    ('Alice', 'Johnson'),
+    ('Bob', 'Smith');

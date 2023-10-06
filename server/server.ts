@@ -188,6 +188,26 @@ app.put('/api/carts/:cartId', async (req, res, next) => {
   }
 });
 
+// DELETES selected cart from the database
+app.delete('/api/carts/:cartId', async (req, res, next) => {
+  try {
+    const cartId = Number(req.params.cartId);
+    validateId(cartId);
+    const sql = `
+      delete
+        from "carts"
+        where "cartId" = $1
+        returning *
+    `;
+    const result = await db.query(sql, [cartId]);
+    const cartInfo = result.rows[0];
+    validateResult(cartInfo, cartId);
+    res.sendStatus(204);
+  } catch (err: any) {
+    next(err);
+  }
+});
+
 function validateId(id: number) {
   if (!Number.isInteger(id) || id <= 0) {
     throw new ClientError(400, 'id must be a positive integer');
