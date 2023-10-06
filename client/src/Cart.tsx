@@ -5,15 +5,22 @@ import { useParams } from 'react-router-dom';
 export default function Cart() {
   const [error, setError] = useState<any>();
   const { customerId } = useParams();
-  const [items, setItems] = useState<any>([]);
+  const [items, setItems] = useState<any[]>([]);
+
+  let subtotal = 0;
+
+  items.forEach((item) => (subtotal += item.price * item.quantity));
+  const taxes = subtotal * 0.0725;
+  const total = subtotal + taxes;
 
   useEffect(() => {
     async function getCartInfo() {
       setError(undefined);
       try {
-        const response = await fetch(`/api/carts/${customerId}`);
+        const response = await fetch(`/api/carts/customer/${customerId}`);
         if (!response.ok) throw new Error(`HTTP error!: ${response.status}`);
-        const cartContents = await response.json();
+        const cartContents: any[] = await response.json();
+        cartContents.sort((a, b) => a.cartId - b.cartId);
         setItems(cartContents);
       } catch (err: any) {
         console.log(err.message);
@@ -32,6 +39,28 @@ export default function Cart() {
     return (
       <p>Error! {error instanceof Error ? error.message : 'Unknown Error'}</p>
     );
+  }
+
+  async function updateCart(cartId, size, quantity) {
+    try {
+      const request = {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ size, quantity }),
+      };
+      const response = await fetch(`/api/carts/${cartId}`, request);
+      if (!response.ok) throw new Error(`HTTP error!: ${response.status}`);
+      const newCart = await response.json();
+      if (newCart) console.log('Cart has been updated!', newCart);
+      const updatedCart = items.map((i) =>
+        i.cartId === cartId ? { ...i, size, quantity } : i
+      );
+      // console.log('updating with', updatedCart);
+      setItems(updatedCart);
+    } catch (err: any) {
+      console.log(err.message);
+      setError(err);
+    }
   }
 
   return (
@@ -57,7 +86,26 @@ export default function Cart() {
             {items.map((item, i) => (
               <div key={i} className="d-flex flex-column mt-2 pb-5">
                 <div>{item.productName}</div>
-                <div>{`Size: ${item.size}`}</div>
+                <DropdownButton id="dropdown-basic-button" title={item.size}>
+                  <Dropdown.Item
+                    onClick={() => updateCart(item.cartId, 'S', item.quantity)}>
+                    S
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => updateCart(item.cartId, 'M', item.quantity)}>
+                    M
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => updateCart(item.cartId, 'L', item.quantity)}>
+                    L
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() =>
+                      updateCart(item.cartId, 'XL', item.quantity)
+                    }>
+                    XL
+                  </Dropdown.Item>
+                </DropdownButton>
               </div>
             ))}
           </div>
@@ -70,11 +118,26 @@ export default function Cart() {
                 <DropdownButton
                   id="dropdown-basic-button"
                   title={item.quantity}>
-                  <Dropdown.Item href="#/quantity-1">1</Dropdown.Item>
-                  <Dropdown.Item href="#/quantity-2">2</Dropdown.Item>
-                  <Dropdown.Item href="#/quantity-3">3</Dropdown.Item>
-                  <Dropdown.Item href="#/quantity-4">4</Dropdown.Item>
-                  <Dropdown.Item href="#/quantity-5">5</Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => updateCart(item.cartId, item.size, 1)}>
+                    1
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => updateCart(item.cartId, item.size, 2)}>
+                    2
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => updateCart(item.cartId, item.size, 3)}>
+                    3
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => updateCart(item.cartId, item.size, 4)}>
+                    4
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => updateCart(item.cartId, item.size, 5)}>
+                    5
+                  </Dropdown.Item>
                 </DropdownButton>
               </div>
             ))}
@@ -85,7 +148,7 @@ export default function Cart() {
             </div>
             {items.map((item, i) => (
               <div key={i} className="mt-2 pb-5 mb-5">
-                <div>{`$${item.price}.00`}</div>
+                <div>{`$${(item.price * item.quantity).toFixed(2)}`}</div>
               </div>
             ))}
           </div>
@@ -95,16 +158,16 @@ export default function Cart() {
         <h3 className="mb-4">Order Summary</h3>
         <div className="d-flex flex-column">
           <div className="d-flex">
-            <div className="me-auto">Subtotal: 2 items </div>
-            <div>$260.00</div>
+            <div className="me-auto">{`Subtotal (${items.length} items)`}</div>
+            <div>{`$${subtotal.toFixed(2)}`}</div>
           </div>
           <div className="d-flex py-3">
-            <div className="me-auto">Shipping</div>
-            <div>$10.00</div>
+            <div className="me-auto">Taxes</div>
+            <div>{`$${taxes.toFixed(2)}`}</div>
           </div>
           <div className="d-flex py-4 border-top">
             <h4 className="me-auto">Total</h4>
-            <div>$270.00</div>
+            <div>{`$${total.toFixed(2)}`}</div>
           </div>
           <button style={{ height: '3rem' }}>Checkout</button>
         </div>

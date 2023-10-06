@@ -146,12 +146,12 @@ app.post('/api/carts', async (req, res, next) => {
 });
 
 // GETS product information JOINED with quantity and subtotal for the cart
-app.get('/api/carts/:customerId', async (req, res, next) => {
+app.get('/api/carts/customer/:customerId', async (req, res, next) => {
   try {
     const customerId = Number(req.params.customerId);
     validateId(customerId);
     const sql = `
-      select "p"."productImage", "p"."productName", "p"."price", "c"."size", "c"."quantity"
+      select "p"."productImage", "p"."productName", "p"."price", "c"."cartId", "c"."size", "c"."quantity"
         from "products" as "p"
         join "carts" as "c" using ("productId")
         where "customerId" = $1
@@ -159,6 +159,29 @@ app.get('/api/carts/:customerId', async (req, res, next) => {
     const result = await db.query(sql, [customerId]);
     const cartInfo = result.rows;
     validateResult(cartInfo[0], customerId);
+    res.json(cartInfo);
+  } catch (err: any) {
+    next(err);
+  }
+});
+
+// PUTS updated size and quantity into cart table
+app.put('/api/carts/:cartId', async (req, res, next) => {
+  try {
+    const cartId = Number(req.params.cartId);
+    validateId(cartId);
+    const { size, quantity } = req.body;
+    validateReq(size, quantity);
+    const sql = `
+      update "carts"
+        set "quantity" = $1,
+            "size" = $2
+        where "cartId" = $3
+        returning *
+    `;
+    const result = await db.query(sql, [quantity, size, cartId]);
+    const cartInfo = result.rows[0];
+    validateResult(cartInfo, cartId);
     res.json(cartInfo);
   } catch (err: any) {
     next(err);
