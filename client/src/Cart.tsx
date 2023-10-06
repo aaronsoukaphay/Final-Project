@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DropdownButton, Dropdown } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 
@@ -6,26 +6,12 @@ export default function Cart() {
   const [error, setError] = useState<any>();
   const { customerId } = useParams();
   const [items, setItems] = useState<any[]>([]);
-  const [subtotal, setSubtotal] = useState<number>(0);
-  const [taxes, setTaxes] = useState<number>(0);
-  const [total, setTotal] = useState<number>(0);
 
-  const calculateSubtotal = useCallback(() => {
-    let subtotal = 0;
-    items.forEach((item) => (subtotal += item.price * item.quantity));
-    const fixedSubtotal = subtotal;
-    setSubtotal(fixedSubtotal);
-  }, [items]);
+  let subtotal = 0;
 
-  const calculateTaxes = useCallback(() => {
-    const taxes = subtotal * 0.0725;
-    setTaxes(taxes);
-  }, [subtotal]);
-
-  const calculateTotal = useCallback(() => {
-    const total = subtotal + taxes;
-    setTotal(total);
-  }, [subtotal, taxes]);
+  items.forEach((item) => (subtotal += item.price * item.quantity));
+  const taxes = subtotal * 0.0725;
+  const total = subtotal + taxes;
 
   useEffect(() => {
     async function getCartInfo() {
@@ -33,7 +19,8 @@ export default function Cart() {
       try {
         const response = await fetch(`/api/carts/customer/${customerId}`);
         if (!response.ok) throw new Error(`HTTP error!: ${response.status}`);
-        const cartContents = await response.json();
+        const cartContents: any[] = await response.json();
+        cartContents.sort((a, b) => a.cartId - b.cartId);
         setItems(cartContents);
       } catch (err: any) {
         console.log(err.message);
@@ -42,13 +29,10 @@ export default function Cart() {
     }
     if (customerId) {
       getCartInfo();
-      calculateSubtotal();
-      calculateTaxes();
-      calculateTotal();
     } else {
       setItems([]);
     }
-  }, [customerId, calculateSubtotal, calculateTaxes, calculateTotal]);
+  }, [customerId]);
 
   if (error || !customerId) {
     console.error('Fetch error:', error);
@@ -71,7 +55,7 @@ export default function Cart() {
       const updatedCart = items.map((i) =>
         i.cartId === cartId ? { ...i, size, quantity } : i
       );
-      console.log('updating with', updatedCart);
+      // console.log('updating with', updatedCart);
       setItems(updatedCart);
     } catch (err: any) {
       console.log(err.message);
