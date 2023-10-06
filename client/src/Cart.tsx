@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { DropdownButton, Dropdown } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 
@@ -7,6 +7,24 @@ export default function Cart() {
   const { customerId } = useParams();
   const [items, setItems] = useState<any[]>([]);
   const [subtotal, setSubtotal] = useState<number>(0);
+  const [taxes, setTaxes] = useState<number>(0);
+  const [total, setTotal] = useState<number>(0);
+
+  const calculateSubtotal = useCallback(() => {
+    let subtotal = 0;
+    items.forEach((item) => (subtotal += item.price));
+    setSubtotal(subtotal);
+  }, [items]);
+
+  const calculateTaxes = useCallback(() => {
+    const taxes = subtotal * 0.0725;
+    setTaxes(taxes);
+  }, [subtotal]);
+
+  const calculateTotal = useCallback(() => {
+    const total = subtotal + taxes;
+    setTotal(total);
+  }, [subtotal, taxes]);
 
   useEffect(() => {
     async function getCartInfo() {
@@ -23,10 +41,13 @@ export default function Cart() {
     }
     if (customerId) {
       getCartInfo();
+      calculateSubtotal();
+      calculateTaxes();
+      calculateTotal();
     } else {
       setItems([]);
     }
-  }, [customerId]);
+  }, [customerId, calculateSubtotal, calculateTaxes, calculateTotal]);
 
   if (error || !customerId) {
     console.error('Fetch error:', error);
@@ -152,16 +173,16 @@ export default function Cart() {
         <h3 className="mb-4">Order Summary</h3>
         <div className="d-flex flex-column">
           <div className="d-flex">
-            <div className="me-auto">Subtotal: 2 items </div>
+            <div className="me-auto">{`Subtotal (${items.length} items)`}</div>
             <div>{`$${subtotal}.00`}</div>
           </div>
           <div className="d-flex py-3">
-            <div className="me-auto">Shipping</div>
-            <div>$10.00</div>
+            <div className="me-auto">Taxes</div>
+            <div>{`$${taxes}`}</div>
           </div>
           <div className="d-flex py-4 border-top">
             <h4 className="me-auto">Total</h4>
-            <div>$270.00</div>
+            <div>{`$${total}`}</div>
           </div>
           <button style={{ height: '3rem' }}>Checkout</button>
         </div>
