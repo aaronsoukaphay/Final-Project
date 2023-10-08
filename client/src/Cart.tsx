@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { DropdownButton, Dropdown } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 
 export default function Cart() {
   const [error, setError] = useState<any>();
@@ -22,6 +23,7 @@ export default function Cart() {
         const cartContents: any[] = await response.json();
         cartContents.sort((a, b) => a.cartId - b.cartId);
         setItems(cartContents);
+        console.log('before removal', cartContents);
       } catch (err: any) {
         console.log(err.message);
         setError(err);
@@ -55,7 +57,21 @@ export default function Cart() {
       const updatedCart = items.map((i) =>
         i.cartId === cartId ? { ...i, size, quantity } : i
       );
-      // console.log('updating with', updatedCart);
+      console.log(updatedCart);
+      setItems(updatedCart);
+    } catch (err: any) {
+      console.log(err.message);
+      setError(err);
+    }
+  }
+
+  async function deleteCart(cartId) {
+    try {
+      const request = {
+        method: 'DELETE',
+      };
+      await fetch(`/api/carts/${cartId}`, request);
+      const updatedCart = items.filter((item) => item.cartId !== cartId);
       setItems(updatedCart);
     } catch (err: any) {
       console.log(err.message);
@@ -149,6 +165,7 @@ export default function Cart() {
             {items.map((item, i) => (
               <div key={i} className="mt-2 pb-5 mb-5">
                 <div>{`$${(item.price * item.quantity).toFixed(2)}`}</div>
+                <Button onClick={() => deleteCart(item.cartId)}>Remove</Button>
               </div>
             ))}
           </div>

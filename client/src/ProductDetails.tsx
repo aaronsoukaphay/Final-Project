@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import './ProductDetails.css';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Dropdown, DropdownButton } from 'react-bootstrap';
 
 // type Product = {
@@ -21,6 +21,7 @@ export default function ProductDetails() {
   const [size, setSize] = useState('');
   const [quantity, setQuantity] = useState(0);
   const sizes = ['S', 'M', 'L', 'XL'];
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function getProductDetails() {
@@ -58,6 +59,10 @@ export default function ProductDetails() {
   };
 
   async function addToCart(data: Data) {
+    if (cartInfo.size === '' || cartInfo.quantity === 0) {
+      window.alert('Please select both a size and quantity.');
+      return;
+    }
     try {
       const request = {
         method: 'POST',
@@ -70,6 +75,7 @@ export default function ProductDetails() {
       if (!response.ok)
         throw new Error(`HTTP error! Status: ${response.status}`);
       const cartData = await response.json();
+      if (cartData) navigate(`/cart/customer/${cartInfo.customerId}`);
       console.log('Success!:', cartData);
     } catch (err: any) {
       console.log(err.message);
@@ -128,13 +134,11 @@ export default function ProductDetails() {
                     5
                   </Dropdown.Item>
                 </DropdownButton>
-                <Link to={`/cart/customer/${cartInfo.customerId}`}>
-                  <button
-                    style={{ width: '300px', height: '3rem' }}
-                    onClick={() => addToCart(cartInfo)}>
-                    Add to cart
-                  </button>
-                </Link>
+                <button
+                  style={{ width: '300px', height: '3rem' }}
+                  onClick={() => addToCart(cartInfo)}>
+                  Add to cart
+                </button>
               </div>
               <div>Size:{size}</div>
               <div>Quantity:{quantity}</div>

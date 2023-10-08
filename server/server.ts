@@ -158,7 +158,6 @@ app.get('/api/carts/customer/:customerId', async (req, res, next) => {
     `;
     const result = await db.query(sql, [customerId]);
     const cartInfo = result.rows;
-    validateResult(cartInfo[0], customerId);
     res.json(cartInfo);
   } catch (err: any) {
     next(err);
@@ -183,6 +182,26 @@ app.put('/api/carts/:cartId', async (req, res, next) => {
     const cartInfo = result.rows[0];
     validateResult(cartInfo, cartId);
     res.json(cartInfo);
+  } catch (err: any) {
+    next(err);
+  }
+});
+
+// DELETES selected cart from the database
+app.delete('/api/carts/:cartId', async (req, res, next) => {
+  try {
+    const cartId = Number(req.params.cartId);
+    validateId(cartId);
+    const sql = `
+      delete
+        from "carts"
+        where "cartId" = $1
+        returning *
+    `;
+    const result = await db.query(sql, [cartId]);
+    const cartInfo = result.rows[0];
+    validateResult(cartInfo, cartId);
+    res.sendStatus(204);
   } catch (err: any) {
     next(err);
   }

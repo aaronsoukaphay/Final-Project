@@ -42,7 +42,6 @@ CREATE TABLE "carts" (
 
 CREATE TABLE "customers" (
   "customerId" serial PRIMARY KEY,
-  "cartId" integer,
   "firstName" text,
   "lastName" text
 );
@@ -52,5 +51,3 @@ ALTER TABLE "players" ADD FOREIGN KEY ("teamId") REFERENCES "teams" ("teamId");
 ALTER TABLE "products" ADD FOREIGN KEY ("playerId") REFERENCES "players" ("playerId");
 
 ALTER TABLE "carts" ADD FOREIGN KEY ("productId") REFERENCES "products" ("productId");
-
-ALTER TABLE "customers" ADD FOREIGN KEY ("cartId") REFERENCES "carts" ("cartId");
