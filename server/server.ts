@@ -158,7 +158,6 @@ app.get('/api/carts/customer/:customerId', async (req, res, next) => {
     `;
     const result = await db.query(sql, [customerId]);
     const cartInfo = result.rows;
-    validateResult(cartInfo[0], customerId);
     res.json(cartInfo);
   } catch (err: any) {
     next(err);
