@@ -42,8 +42,8 @@ CREATE TABLE "carts" (
 
 CREATE TABLE "customers" (
   "customerId" serial PRIMARY KEY,
-  "firstName" text,
-  "lastName" text
+  "username" text,
+  "hashedPassword" text
 );
 
 ALTER TABLE "players" ADD FOREIGN KEY ("teamId") REFERENCES "teams" ("teamId");

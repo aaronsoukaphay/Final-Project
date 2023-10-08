@@ -2,7 +2,9 @@
 import 'dotenv/config';
 import express from 'express';
 import pg from 'pg';
-import { ClientError, errorMiddleware } from './lib/index.js';
+import { ClientError, errorMiddleware, authMiddleware } from './lib/index.js';
+import argon2 from 'argon2';
+import jwt from 'jsonwebtoken';
 
 const connectionString =
   process.env.DATABASE_URL ||
@@ -28,6 +30,52 @@ app.use(express.json());
 
 app.get('/api/hello', (req, res) => {
   res.json({ message: 'Hello, World!' });
+});
+
+// POSTS new user information to customers table
+app.post('/api/customers/sign-up', async (req, res, next) => {
+  try {
+    const { username, password } = req.body;
+    if (!username || !password)
+      throw new ClientError(400, 'username and password are required fields');
+    const hashedPassword = await argon2.hash(password);
+    const sql = `
+      insert into "customers" ("username", "hashedPassword")
+        values ($1, $2)
+        returning *
+    `;
+    const result = await db.query(sql, [username, hashedPassword]);
+    const data = result.rows[0];
+    res.status(201).json(data);
+  } catch (err: any) {
+    console.log(err.message);
+    next(err);
+  }
+});
+
+// VERIFIES that customer password and username match a customer in 'customers' table
+app.post('/api/customers/sign-in', async (req, res, next) => {
+  try {
+    const { username, password } = req.body;
+    if (!username || !password) throw new ClientError(401, 'invalid login');
+    const sql = `
+      select "customerId", "hashedPassword"
+        from "customers"
+        where "username" = $1
+    `;
+    const result = await db.query(sql, [username]);
+    const data = result.rows[0];
+    if (!data) throw new ClientError(401, `invalid login`);
+    const { customerId, hashedPassword } = data;
+    if (!(await argon2.verify(hashedPassword, password)))
+      throw new ClientError(401, 'invalid login');
+    const payload = { customerId, password };
+    const token = jwt.sign(payload, process.env.TOKEN_SECRET);
+    res.json({ token, user: payload });
+  } catch (err: any) {
+    console.log(err.message);
+    next(err);
+  }
 });
 
 // GETS all teams that have a team logo
