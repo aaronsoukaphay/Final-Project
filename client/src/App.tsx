@@ -18,7 +18,7 @@ export default function App() {
         <Route path="catalog/:category" element={<Catalog />} />
         <Route path="catalog/teams/:teamId" element={<Catalog />} />
         <Route path="details/:productId" element={<ProductDetails />} />
-        <Route path="cart/customer/:customerId" element={<Cart />} />
+        <Route path="cart" element={<Cart />} />
         <Route path="register" element={<RegistrationForm />} />
         <Route path="sign-in" element={<SignInForm />} />
         <Route path="*" element={<NotFound />} />

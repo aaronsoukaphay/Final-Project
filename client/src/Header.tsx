@@ -1,5 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Link, Outlet, useParams } from 'react-router-dom';
+import { Link, Outlet, useParams, useNavigate } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import { BsCart } from 'react-icons/bs';
 // import { FaSearch } from 'react-icons/fa';
@@ -10,6 +10,7 @@ export default function Header() {
   const { teamId } = useParams();
   const [team, setTeam] = useState();
   const [error, setError] = useState<any>();
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function getTeamInfo() {
@@ -39,9 +40,20 @@ export default function Header() {
     );
   }
 
+  function handleAccount() {
+    const token = sessionStorage.getItem('token');
+    if (token) {
+      sessionStorage.removeItem('token');
+      navigate('/');
+      console.log('User signed out');
+    } else {
+      navigate('/sign-in');
+    }
+  }
+
   return (
     <div>
-      <TopBanner team={team} />
+      <TopBanner team={team} handleAccount={() => handleAccount()} />
       <BottomBanner team={team} />
       <NavBar team={team} />
       <Outlet />
@@ -49,19 +61,21 @@ export default function Header() {
   );
 }
 
-function TopBanner({ team }) {
+function TopBanner({ team, handleAccount }) {
   return (
     <div className="d-flex align-items-center">
       <div className="me-auto ps-4 pageName">{team && 'TOUCHDOWN THREADS'}</div>
       <div className="p-2">
-        <Link to="/register">
-          <Button>Account</Button>
-        </Link>
+        <Button onClick={handleAccount}>
+          {sessionStorage.getItem('token') ? 'Sign Out' : 'Sign In'}
+        </Button>
       </div>
       <div className="mx-4">
-        <Link to="/cart/customer/1">
-          <BsCart />
-        </Link>
+        {sessionStorage.getItem('token') && (
+          <Link to={`/cart`}>
+            <BsCart />
+          </Link>
+        )}
       </div>
     </div>
   );

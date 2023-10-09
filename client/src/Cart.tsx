@@ -1,11 +1,9 @@
 import { useEffect, useState } from 'react';
 import { DropdownButton, Dropdown } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 
 export default function Cart() {
   const [error, setError] = useState<any>();
-  const { customerId } = useParams();
   const [items, setItems] = useState<any[]>([]);
 
   let subtotal = 0;
@@ -18,25 +16,28 @@ export default function Cart() {
     async function getCartInfo() {
       setError(undefined);
       try {
-        const response = await fetch(`/api/carts/customer/${customerId}`);
-        if (!response.ok) throw new Error(`HTTP error!: ${response.status}`);
+        const request = {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+          },
+        };
+        const response = await fetch(`/api/carts/read-in-cart`, request);
+        if (!response.ok) throw new Error(`HTTP error ${response.status}`);
         const cartContents: any[] = await response.json();
         cartContents.sort((a, b) => a.cartId - b.cartId);
         setItems(cartContents);
-        console.log('before removal', cartContents);
       } catch (err: any) {
         console.log(err.message);
         setError(err);
       }
     }
-    if (customerId) {
+    if (sessionStorage.getItem('token')) {
       getCartInfo();
-    } else {
-      setItems([]);
     }
-  }, [customerId]);
+  }, []);
 
-  if (error || !customerId) {
+  if (error) {
     console.error('Fetch error:', error);
     return (
       <p>Error! {error instanceof Error ? error.message : 'Unknown Error'}</p>
@@ -47,17 +48,19 @@ export default function Cart() {
     try {
       const request = {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+        },
         body: JSON.stringify({ size, quantity }),
       };
       const response = await fetch(`/api/carts/${cartId}`, request);
       if (!response.ok) throw new Error(`HTTP error!: ${response.status}`);
       const newCart = await response.json();
-      if (newCart) console.log('Cart has been updated!', newCart);
+      if (newCart) console.log('Cart has been updated!:', newCart);
       const updatedCart = items.map((i) =>
         i.cartId === cartId ? { ...i, size, quantity } : i
       );
-      console.log(updatedCart);
       setItems(updatedCart);
     } catch (err: any) {
       console.log(err.message);
@@ -69,6 +72,9 @@ export default function Cart() {
     try {
       const request = {
         method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+        },
       };
       await fetch(`/api/carts/${cartId}`, request);
       const updatedCart = items.filter((item) => item.cartId !== cartId);

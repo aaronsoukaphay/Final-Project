@@ -1,5 +1,5 @@
 import { FormEvent, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 export default function SignInForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -25,7 +25,7 @@ export default function SignInForm() {
       if (token) navigate('/');
       console.log('Signed In', user, '; received token:', token);
     } catch (err) {
-      alert(`Error signing in: ${err}`);
+      alert(`Invalid username or password.`);
     } finally {
       setIsLoading(false);
     }
@@ -69,6 +69,11 @@ export default function SignInForm() {
               Sign In
             </button>
           </div>
+        </div>
+        <div>
+          <Link to="/register">
+            <button>Register for new account</button>
+          </Link>
         </div>
       </form>
     </div>
