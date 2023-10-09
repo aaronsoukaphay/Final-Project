@@ -173,6 +173,26 @@ app.get('/api/products/selected/:productId', async (req, res, next) => {
   }
 });
 
+// GETS products from 'products' table responds with matching productNames
+app.get('/api/search', async (req, res, next) => {
+  try {
+    const { query } = req.query;
+    const sql = `
+      select *
+        from "products"
+        where lower("productName") like '%' || lower($1) || '%';
+    `;
+    const result = await db.query(sql, [query]);
+    const foundProducts = result.rows;
+    if (!foundProducts[0]) {
+      res.json([]);
+    }
+    res.json(foundProducts);
+  } catch (err: any) {
+    next(err);
+  }
+});
+
 // POSTS details from selected product into carts
 app.post('/api/carts/add-to-cart', authMiddleware, async (req, res, next) => {
   try {
