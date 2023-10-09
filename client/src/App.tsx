@@ -7,7 +7,8 @@ import Catalog from './Catalog';
 import ProductDetails from './ProductDetails';
 import Cart from './Cart';
 import NotFound from './NotFound';
-import SignIn from './SignIn';
+import RegistrationForm from './RegistrationForm';
+import SignInForm from './SignInForm';
 
 export default function App() {
   return (
@@ -17,8 +18,9 @@ export default function App() {
         <Route path="catalog/:category" element={<Catalog />} />
         <Route path="catalog/teams/:teamId" element={<Catalog />} />
         <Route path="details/:productId" element={<ProductDetails />} />
-        <Route path="cart/customer/:customerId" element={<Cart />} />
-        <Route path="sign-in" element={<SignIn />} />
+        <Route path="cart" element={<Cart />} />
+        <Route path="register" element={<RegistrationForm />} />
+        <Route path="sign-in" element={<SignInForm />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

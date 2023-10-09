@@ -58,9 +58,21 @@ export default function ProductDetails() {
     customerId: number;
   };
 
+  const cartInfo = {
+    productId: Number(productId),
+    size,
+    quantity,
+    customerId: Number(sessionStorage.getItem('userId')),
+  };
+
   async function addToCart(data: Data) {
     if (cartInfo.size === '' || cartInfo.quantity === 0) {
       window.alert('Please select both a size and quantity.');
+      return;
+    }
+    if (!sessionStorage.getItem('token')) {
+      window.alert('Please sign in to add to cart');
+      navigate('/sign-in');
       return;
     }
     try {
@@ -68,27 +80,23 @@ export default function ProductDetails() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${sessionStorage.getItem('token')}`,
         },
         body: JSON.stringify(data),
       };
-      const response = await fetch('/api/carts', request);
+      const response = await fetch('/api/carts/add-to-cart', request);
       if (!response.ok)
         throw new Error(`HTTP error! Status: ${response.status}`);
       const cartData = await response.json();
-      if (cartData) navigate(`/cart/customer/${cartInfo.customerId}`);
-      console.log('Success!:', cartData);
+      if (cartData) {
+        navigate(`/cart`);
+        console.log('Added to cart!:', cartData);
+      }
     } catch (err: any) {
       console.log(err.message);
       setError(err);
     }
   }
-
-  const cartInfo = {
-    productId: Number(productId),
-    size,
-    quantity,
-    customerId: 1,
-  };
 
   return (
     <>

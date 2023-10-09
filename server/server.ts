@@ -2,7 +2,9 @@
 import 'dotenv/config';
 import express from 'express';
 import pg from 'pg';
-import { ClientError, errorMiddleware } from './lib/index.js';
+import { ClientError, errorMiddleware, authMiddleware } from './lib/index.js';
+import argon2 from 'argon2';
+import jwt from 'jsonwebtoken';
 
 const connectionString =
   process.env.DATABASE_URL ||
@@ -28,6 +30,52 @@ app.use(express.json());
 
 app.get('/api/hello', (req, res) => {
   res.json({ message: 'Hello, World!' });
+});
+
+// POSTS new user information to customers table
+app.post('/api/customers/sign-up', async (req, res, next) => {
+  try {
+    const { username, password } = req.body;
+    if (!username || !password)
+      throw new ClientError(400, 'username and password are required fields');
+    const hashedPassword = await argon2.hash(password);
+    const sql = `
+      insert into "customers" ("username", "hashedPassword")
+        values ($1, $2)
+        returning *
+    `;
+    const result = await db.query(sql, [username, hashedPassword]);
+    const data = result.rows[0];
+    res.status(201).json(data);
+  } catch (err: any) {
+    console.log(err.message);
+    next(err);
+  }
+});
+
+// VERIFIES that customer password and username match a customer in 'customers' table
+app.post('/api/customers/sign-in', async (req, res, next) => {
+  try {
+    const { username, password } = req.body;
+    if (!username || !password) throw new ClientError(401, 'invalid login');
+    const sql = `
+      select "customerId", "hashedPassword"
+        from "customers"
+        where "username" = $1
+    `;
+    const result = await db.query(sql, [username]);
+    const data = result.rows[0];
+    if (!data) throw new ClientError(401, `invalid login`);
+    const { customerId, hashedPassword } = data;
+    if (!(await argon2.verify(hashedPassword, password)))
+      throw new ClientError(401, 'invalid login');
+    const payload = { customerId, password };
+    const token = jwt.sign(payload, process.env.TOKEN_SECRET!);
+    res.json({ token, user: payload });
+  } catch (err: any) {
+    console.log(err.message);
+    next(err);
+  }
 });
 
 // GETS all teams that have a team logo
@@ -126,9 +174,9 @@ app.get('/api/products/selected/:productId', async (req, res, next) => {
 });
 
 // POSTS details from selected product into carts
-app.post('/api/carts', async (req, res, next) => {
+app.post('/api/carts/add-to-cart', authMiddleware, async (req, res, next) => {
   try {
-    const { customerId, productId, size, quantity } = req.body;
+    const { productId, size, quantity } = req.body;
     validateId(productId);
     validateReq(size, quantity);
     const sql = `
@@ -136,7 +184,12 @@ app.post('/api/carts', async (req, res, next) => {
         values ($1, $2, $3, $4)
         returning *
     `;
-    const result = await db.query(sql, [customerId, productId, size, quantity]);
+    const result = await db.query(sql, [
+      req.user!.customerId,
+      productId,
+      size,
+      quantity,
+    ]);
     const cartInfo = result.rows[0];
     validateResult(cartInfo, productId);
     res.json(cartInfo);
@@ -146,17 +199,15 @@ app.post('/api/carts', async (req, res, next) => {
 });
 
 // GETS product information JOINED with quantity and subtotal for the cart
-app.get('/api/carts/customer/:customerId', async (req, res, next) => {
+app.get('/api/carts/read-in-cart', authMiddleware, async (req, res, next) => {
   try {
-    const customerId = Number(req.params.customerId);
-    validateId(customerId);
     const sql = `
       select "p"."productImage", "p"."productName", "p"."price", "c"."cartId", "c"."size", "c"."quantity"
         from "products" as "p"
         join "carts" as "c" using ("productId")
         where "customerId" = $1
     `;
-    const result = await db.query(sql, [customerId]);
+    const result = await db.query(sql, [req.user!.customerId]);
     const cartInfo = result.rows;
     res.json(cartInfo);
   } catch (err: any) {
@@ -165,7 +216,7 @@ app.get('/api/carts/customer/:customerId', async (req, res, next) => {
 });
 
 // PUTS updated size and quantity into cart table
-app.put('/api/carts/:cartId', async (req, res, next) => {
+app.put('/api/carts/:cartId', authMiddleware, async (req, res, next) => {
   try {
     const cartId = Number(req.params.cartId);
     validateId(cartId);
@@ -175,10 +226,15 @@ app.put('/api/carts/:cartId', async (req, res, next) => {
       update "carts"
         set "quantity" = $1,
             "size" = $2
-        where "cartId" = $3
+        where "cartId" = $3 and "customerId" = $4
         returning *
     `;
-    const result = await db.query(sql, [quantity, size, cartId]);
+    const result = await db.query(sql, [
+      quantity,
+      size,
+      cartId,
+      req.user!.customerId,
+    ]);
     const cartInfo = result.rows[0];
     validateResult(cartInfo, cartId);
     res.json(cartInfo);
@@ -188,17 +244,17 @@ app.put('/api/carts/:cartId', async (req, res, next) => {
 });
 
 // DELETES selected cart from the database
-app.delete('/api/carts/:cartId', async (req, res, next) => {
+app.delete('/api/carts/:cartId', authMiddleware, async (req, res, next) => {
   try {
     const cartId = Number(req.params.cartId);
     validateId(cartId);
     const sql = `
       delete
         from "carts"
-        where "cartId" = $1
+        where "cartId" = $1 and "customerId" = $2
         returning *
     `;
-    const result = await db.query(sql, [cartId]);
+    const result = await db.query(sql, [cartId, req.user!.customerId]);
     const cartInfo = result.rows[0];
     validateResult(cartInfo, cartId);
     res.sendStatus(204);

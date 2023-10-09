@@ -290,8 +290,8 @@ VALUES
     (1, 3, 'M', 2),
     (2, 5, 'S', 1);
 
--- Insert data into the "customers" table
-INSERT INTO customers ( "firstName", "lastName")
-VALUES
-    ('Alice', 'Johnson'),
-    ('Bob', 'Smith');
+-- -- Insert data into the "customers" table
+-- INSERT INTO customers ( "username", "hashedPassword")
+-- VALUES
+--     ('admin', 'password1'),
+--     ('aaron', 'soukaphay1');
