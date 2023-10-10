@@ -184,9 +184,12 @@ app.get('/api/search', async (req, res, next) => {
     `;
     const result = await db.query(sql, [query]);
     const foundProducts = result.rows;
-    if (!foundProducts[0]) {
-      res.json([]);
-    }
+    // if (!foundProducts[0]) {
+    //   throw new ClientError(
+    //     404,
+    //     `cannot find data for data with the search: ${query}`
+    //   );
+    // }
     res.json(foundProducts);
   } catch (err: any) {
     next(err);

@@ -1,8 +1,8 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link, Outlet, useParams, useNavigate } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import { BsCart } from 'react-icons/bs';
-// import { FaSearch } from 'react-icons/fa';
+import { FaSearch } from 'react-icons/fa';
 import './Header.css';
 import { useEffect, useState } from 'react';
 
@@ -51,10 +51,19 @@ export default function Header() {
     }
   }
 
+  function handleSubmit(event) {
+    event.preventDefault();
+    const form = event.target;
+    const formData = new FormData(form);
+
+    const formJson = Object.fromEntries(formData.entries());
+    navigate(`/search/${formJson.search}`);
+  }
+
   return (
     <div>
       <TopBanner team={team} handleAccount={() => handleAccount()} />
-      <BottomBanner team={team} />
+      <BottomBanner team={team} handleSubmit={(e) => handleSubmit(e)} />
       <NavBar team={team} />
       <Outlet />
     </div>
@@ -81,7 +90,7 @@ function TopBanner({ team, handleAccount }) {
   );
 }
 
-function BottomBanner({ team }) {
+function BottomBanner({ team, handleSubmit }) {
   const backgroundColor = team ? team.bannerColor : 'rgb(244,245,245)';
   return (
     <div
@@ -95,14 +104,14 @@ function BottomBanner({ team }) {
         )}
       </div>
       <div className="me-2">
-        <div className="form">
-          {/* <FaSearch /> */}
-          <input
-            type="text"
-            className="form-control form-input"
+        <Form onSubmit={handleSubmit}>
+          <FaSearch className="me-2" />
+          <Form.Control
             placeholder="Search products..."
+            name="search"
+            type="search"
           />
-        </div>
+        </Form>
       </div>
     </div>
   );
