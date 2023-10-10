@@ -20,7 +20,7 @@ export default function ProductDetails() {
   const [error, setError] = useState<any>();
   const [size, setSize] = useState('');
   const [quantity, setQuantity] = useState(0);
-  const sizes = ['S', 'M', 'L', 'XL'];
+  const sizes = ['XS', 'S', 'M', 'L', 'XL'];
   const navigate = useNavigate();
 
   useEffect(() => {

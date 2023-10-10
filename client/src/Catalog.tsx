@@ -72,11 +72,13 @@ export default function Catalog() {
     <>
       <div className="p-4">
         <h3 className="catalogHeading text-uppercase">
-          {team ? team.teamName : searchQuery ? 'products' : 'jerseys'}
+          {team ? team.teamName : category ? category : 'search results'}
         </h3>
       </div>
       {!inStock && (
-        <p className="text-center">{`Sorry, could not find products matching the selection: ${searchQuery}`}</p>
+        <p className="text-center">{`Sorry, could not find products matching the selection: ${
+          searchQuery ? searchQuery : category
+        }`}</p>
       )}
       <Container>
         <Row>
