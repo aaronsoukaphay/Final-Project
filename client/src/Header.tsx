@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link, Outlet, useParams, useNavigate } from 'react-router-dom';
-import { Button, Form } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import { BsCart } from 'react-icons/bs';
 import { FaSearch } from 'react-icons/fa';
 import './Header.css';
@@ -52,12 +52,13 @@ export default function Header() {
   }
 
   function handleSubmit(event) {
-    event.preventDefault();
     const form = event.target;
     const formData = new FormData(form);
 
     const formJson = Object.fromEntries(formData.entries());
-    navigate(`/search/${formJson.search}`);
+    formJson.search
+      ? navigate(`/search/${formJson.search}`)
+      : event.preventDefault();
   }
 
   return (
@@ -103,15 +104,20 @@ function BottomBanner({ team, handleSubmit }) {
           'TOUCHDOWN THREADS'
         )}
       </div>
-      <div className="me-2">
-        <Form onSubmit={handleSubmit}>
-          <FaSearch className="me-2" />
-          <Form.Control
+      <div className="col-3">
+        <form
+          onSubmit={handleSubmit}
+          className="d-flex align-items-center justify-content-center">
+          <input
             placeholder="Search products..."
             name="search"
             type="search"
+            className="p-1 rounded-start"
           />
-        </Form>
+          <button className="py-1 px-2 rounded-end">
+            <FaSearch />
+          </button>
+        </form>
       </div>
     </div>
   );
