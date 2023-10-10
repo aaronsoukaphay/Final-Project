@@ -2,7 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link, Outlet, useParams, useNavigate } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import { BsCart } from 'react-icons/bs';
-// import { FaSearch } from 'react-icons/fa';
+import { FaSearch } from 'react-icons/fa';
 import './Header.css';
 import { useEffect, useState } from 'react';
 
@@ -51,10 +51,20 @@ export default function Header() {
     }
   }
 
+  function handleSubmit(event) {
+    const form = event.target;
+    const formData = new FormData(form);
+
+    const formJson = Object.fromEntries(formData.entries());
+    formJson.search
+      ? navigate(`/search/${formJson.search}`)
+      : event.preventDefault();
+  }
+
   return (
     <div>
       <TopBanner team={team} handleAccount={() => handleAccount()} />
-      <BottomBanner team={team} />
+      <BottomBanner team={team} handleSubmit={(e) => handleSubmit(e)} />
       <NavBar team={team} />
       <Outlet />
     </div>
@@ -81,7 +91,7 @@ function TopBanner({ team, handleAccount }) {
   );
 }
 
-function BottomBanner({ team }) {
+function BottomBanner({ team, handleSubmit }) {
   const backgroundColor = team ? team.bannerColor : 'rgb(244,245,245)';
   return (
     <div
@@ -94,15 +104,20 @@ function BottomBanner({ team }) {
           'TOUCHDOWN THREADS'
         )}
       </div>
-      <div className="me-2">
-        <div className="form">
-          {/* <FaSearch /> */}
+      <div className="col-3">
+        <form
+          onSubmit={handleSubmit}
+          className="d-flex align-items-center justify-content-center">
           <input
-            type="text"
-            className="form-control form-input"
             placeholder="Search products..."
+            name="search"
+            type="search"
+            className="p-1 rounded-start"
           />
-        </div>
+          <button className="py-1 px-2 rounded-end">
+            <FaSearch />
+          </button>
+        </form>
       </div>
     </div>
   );

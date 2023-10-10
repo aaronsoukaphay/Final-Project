@@ -7,20 +7,30 @@ export default function Catalog() {
   const [products, setProducts] = useState<any>([]);
   const [error, setError] = useState<any>();
   const [team, setTeam] = useState<any>();
-  const { teamId, category } = useParams();
+  const { teamId, category, searchQuery } = useParams();
+  const [inStock, setInStock] = useState(true);
 
   useEffect(() => {
     async function getProducts() {
       setError(undefined);
+      setInStock(true);
       try {
-        const url = category
-          ? `/api/products/${category}`
-          : `/api/products/teams/${teamId}`;
+        let url;
+        if (category) {
+          url = `/api/products/${category}`;
+        } else if (searchQuery) {
+          url = `/api/search?query=${searchQuery}`;
+        } else {
+          url = `/api/products/teams/${teamId}`;
+        }
         const response = await fetch(url);
-        if (!response.ok)
+        if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
+        }
         const products = await response.json();
-        if (!products) throw new Error('currently out of stock');
+        if (!products[0]) {
+          setInStock(false);
+        }
         setProducts(products);
       } catch (err: any) {
         console.log(err.message);
@@ -28,7 +38,7 @@ export default function Catalog() {
       }
     }
     getProducts();
-  }, [category, teamId]);
+  }, [category, teamId, searchQuery]);
 
   useEffect(() => {
     async function getTeamInfo() {
@@ -62,9 +72,12 @@ export default function Catalog() {
     <>
       <div className="p-4">
         <h3 className="catalogHeading text-uppercase">
-          {team ? team.teamName : 'PRODUCTS'}
+          {team ? team.teamName : searchQuery ? 'products' : 'jerseys'}
         </h3>
       </div>
+      {!inStock && (
+        <p className="text-center">{`Sorry, could not find products matching the selection: ${searchQuery}`}</p>
+      )}
       <Container>
         <Row>
           {products.map((product, i) => (

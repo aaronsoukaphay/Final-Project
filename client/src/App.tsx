@@ -19,6 +19,7 @@ export default function App() {
         <Route path="catalog/teams/:teamId" element={<Catalog />} />
         <Route path="details/:productId" element={<ProductDetails />} />
         <Route path="cart" element={<Cart />} />
+        <Route path="search/:searchQuery" element={<Catalog />} />
         <Route path="register" element={<RegistrationForm />} />
         <Route path="sign-in" element={<SignInForm />} />
         <Route path="*" element={<NotFound />} />
