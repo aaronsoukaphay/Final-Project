@@ -3,17 +3,6 @@ import './ProductDetails.css';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Dropdown, DropdownButton } from 'react-bootstrap';
 
-// type Product = {
-//   category: string;
-//   gender: string;
-//   playerId: number;
-//   price: number;
-//   productId: number;
-//   productImage: string;
-//   productName: string;
-//   teamId: number;
-// };
-
 export default function ProductDetails() {
   const { productId } = useParams();
   const [product, setProduct] = useState<any>({});
@@ -21,6 +10,7 @@ export default function ProductDetails() {
   const [size, setSize] = useState('');
   const [quantity, setQuantity] = useState(0);
   const sizes = ['XS', 'S', 'M', 'L', 'XL'];
+  const quantities = [1, 2, 3, 4, 5];
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -49,20 +39,16 @@ export default function ProductDetails() {
     );
   }
 
-  // POSTS cart info into carts table
-
   type Data = {
     productId: number;
     size: string;
     quantity: number;
-    customerId: number;
   };
 
   const cartInfo = {
     productId: Number(productId),
     size,
     quantity,
-    customerId: Number(sessionStorage.getItem('userId')),
   };
 
   async function addToCart(data: Data) {
@@ -98,6 +84,10 @@ export default function ProductDetails() {
     }
   }
 
+  function handleSize(size) {
+    setSize(size);
+  }
+
   return (
     <>
       <div className="container">
@@ -111,36 +101,31 @@ export default function ProductDetails() {
           <div className="d-flex flex-column justify-content-evenly">
             <div className="mb-4 heading fs-4">{product.productName}</div>
             <div className="heading">{`Price: $${product.price}.00`}</div>
-            <div className="bg-secondary p-4">
+            <div className="bg-light p-4">
               <div className="py-2 subheading">Size</div>
               <div>
-                {sizes.map((size, i) => (
+                {sizes.map((size, index) => (
                   <button
-                    key={i + 1}
-                    className="px-2 me-4"
-                    onClick={() => setSize(size)}>
+                    key={index}
+                    className="px-2 me-4 border-1 rounded button"
+                    onClick={() => handleSize(size)}>
                     {size}
                   </button>
                 ))}
               </div>
               <div className="py-2 subheading">Quantity</div>
               <div className="d-flex justify-content-between">
-                <DropdownButton id="dropdown-basic-button" title={quantity}>
-                  <Dropdown.Item onClick={() => setQuantity(1)}>
-                    1
-                  </Dropdown.Item>
-                  <Dropdown.Item onClick={() => setQuantity(2)}>
-                    2
-                  </Dropdown.Item>
-                  <Dropdown.Item onClick={() => setQuantity(3)}>
-                    3
-                  </Dropdown.Item>
-                  <Dropdown.Item onClick={() => setQuantity(4)}>
-                    4
-                  </Dropdown.Item>
-                  <Dropdown.Item onClick={() => setQuantity(5)}>
-                    5
-                  </Dropdown.Item>
+                <DropdownButton
+                  id="dropdown-basic-button"
+                  title={quantity}
+                  variant="secondary">
+                  {quantities.map((quantity, index) => (
+                    <Dropdown.Item
+                      key={index}
+                      onClick={() => setQuantity(quantity)}>
+                      {quantity}
+                    </Dropdown.Item>
+                  ))}
                 </DropdownButton>
                 <button
                   style={{ width: '300px', height: '3rem' }}

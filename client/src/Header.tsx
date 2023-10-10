@@ -112,9 +112,9 @@ function BottomBanner({ team, handleSubmit }) {
             placeholder="Search products..."
             name="search"
             type="search"
-            className="p-1 rounded-start"
+            className="p-1 rounded-start border-1"
           />
-          <button className="py-1 px-2 rounded-end">
+          <button className="py-1 px-2 rounded-end border-1">
             <FaSearch />
           </button>
         </form>
