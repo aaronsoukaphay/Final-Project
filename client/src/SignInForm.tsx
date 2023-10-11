@@ -1,5 +1,6 @@
 import { FormEvent, useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import './SignInForm.css';
 
 export default function SignInForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -32,50 +33,56 @@ export default function SignInForm() {
   }
 
   return (
-    <div className="container">
-      <div className="row">
-        <div className="column-full d-flex justify-between">
-          <h1>Sign In</h1>
+    <div className="d-flex justify-content-center">
+      <div className="border border-4 border-black mt-5 p-4 signIn">
+        <div className="row mb-3">
+          <div className="column-full ">
+            <h3>Sign In</h3>
+            <div>
+              Not a member yet?{' '}
+              <a href="/register" className="text-dark">
+                CREATE AN ACCOUNT
+              </a>
+            </div>
+          </div>
         </div>
+        <form onSubmit={handleSubmit}>
+          <div className="row margin-bottom-1">
+            <div className="column-half">
+              <label className="mb-2 d-block">
+                Username
+                <input
+                  required
+                  name="username"
+                  type="text"
+                  className="d-block"
+                  style={{ width: '100%', height: '2.5rem' }}
+                />
+              </label>
+              <label className="mb-2 d-block">
+                Password
+                <input
+                  required
+                  name="password"
+                  type="password"
+                  className="d-block"
+                  style={{ width: '100%', height: '2.5rem' }}
+                />
+              </label>
+            </div>
+          </div>
+          <div className="row">
+            <div className="column-full d-flex justify-between">
+              <button
+                style={{ width: '100%' }}
+                disabled={isLoading}
+                className="py-2 mt-4 rounded border-1">
+                Sign In
+              </button>
+            </div>
+          </div>
+        </form>
       </div>
-      <form onSubmit={handleSubmit}>
-        <div className="row margin-bottom-1">
-          <div className="column-half">
-            <label className="margin-bottom-1 d-block">
-              Username
-              <input
-                required
-                name="username"
-                type="text"
-                className="input-b-color text-padding input-b-radius purple-outline input-height margin-bottom-2 d-block width-100"
-              />
-            </label>
-            <label className="margin-bottom-1 d-block">
-              Password
-              <input
-                required
-                name="password"
-                type="password"
-                className="input-b-color text-padding input-b-radius purple-outline input-height margin-bottom-2 d-block width-100"
-              />
-            </label>
-          </div>
-        </div>
-        <div className="row">
-          <div className="column-full d-flex justify-between">
-            <button
-              disabled={isLoading}
-              className="input-b-radius text-padding purple-background white-text">
-              Sign In
-            </button>
-          </div>
-        </div>
-        <div>
-          <Link to="/register">
-            <button>Register for new account</button>
-          </Link>
-        </div>
-      </form>
     </div>
   );
 }

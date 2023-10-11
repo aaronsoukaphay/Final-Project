@@ -104,12 +104,15 @@ export default function ProductDetails() {
             <div className="bg-light p-4">
               <div className="py-2 subheading">Size</div>
               <div>
-                {sizes.map((size, index) => (
+                {sizes.map((s, index) => (
                   <button
+                    style={{
+                      backgroundColor: s === size ? 'darkgrey' : 'white',
+                    }}
                     key={index}
                     className="px-2 me-4 border-1 rounded button"
-                    onClick={() => handleSize(size)}>
-                    {size}
+                    onClick={() => handleSize(s)}>
+                    {s}
                   </button>
                 ))}
               </div>
@@ -133,8 +136,6 @@ export default function ProductDetails() {
                   Add to cart
                 </button>
               </div>
-              <div>Size:{size}</div>
-              <div>Quantity:{quantity}</div>
             </div>
           </div>
         </div>

@@ -1,6 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link, Outlet, useParams, useNavigate } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
 import { BsCart } from 'react-icons/bs';
 import { FaSearch } from 'react-icons/fa';
 import './Header.css';
@@ -76,14 +75,14 @@ function TopBanner({ team, handleAccount }) {
     <div className="d-flex align-items-center">
       <div className="me-auto ps-4 pageName">{team && 'TOUCHDOWN THREADS'}</div>
       <div className="p-2">
-        <Button onClick={handleAccount}>
+        <a href="#" onClick={handleAccount} className="text-dark account">
           {sessionStorage.getItem('token') ? 'Sign Out' : 'Sign In'}
-        </Button>
+        </a>
       </div>
       <div className="mx-4">
         {sessionStorage.getItem('token') && (
           <Link to={`/cart`}>
-            <BsCart />
+            <BsCart style={{ color: 'black' }} />
           </Link>
         )}
       </div>
@@ -112,9 +111,9 @@ function BottomBanner({ team, handleSubmit }) {
             placeholder="Search products..."
             name="search"
             type="search"
-            className="p-1 rounded-start border-1"
+            className="p-1 rounded-start border-1 border-black searchBar"
           />
-          <button className="py-1 px-2 rounded-end border-1">
+          <button className="py-1 px-2 rounded-end border-1 border-black">
             <FaSearch />
           </button>
         </form>

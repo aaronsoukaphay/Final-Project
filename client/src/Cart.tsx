@@ -91,7 +91,6 @@ export default function Cart() {
       <div className="col-7 me-auto">
         <h2>Order Details</h2>
         <div>Your order will be with you soon.</div>
-
         <Row className="border-bottom py-2 mt-3 fw-bold">
           <Col>Product</Col>
           <Col xs={5}>Description</Col>
