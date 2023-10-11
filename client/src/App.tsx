@@ -25,6 +25,7 @@ export type Item = {
 export default function App() {
   const [items, setItems] = useState<Item[]>([]);
   const [error, setError] = useState<unknown>();
+  const [token, setToken] = useState<string>();
 
   useEffect(() => {
     async function getCartInfo() {
@@ -33,7 +34,7 @@ export default function App() {
         const request = {
           method: 'GET',
           headers: {
-            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+            Authorization: `Bearer ${token}`,
           },
         };
         const response = await fetch(`/api/carts/read-in-cart`, request);
@@ -46,11 +47,14 @@ export default function App() {
         setError(err);
       }
     }
-    getCartInfo();
-  }, []);
+    if (token) {
+      getCartInfo();
+    }
+  }, [token]);
 
   return (
-    <CartContext.Provider value={{ items, setItems, error, setError }}>
+    <CartContext.Provider
+      value={{ items, setItems, error, setError, token, setToken }}>
       <Routes>
         <Route path="/" element={<Header />}>
           <Route index element={<Home />} />

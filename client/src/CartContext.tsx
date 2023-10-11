@@ -6,11 +6,14 @@ export type CartValues = {
   setItems: (items: Item[]) => void;
   error?: unknown;
   setError: (err: unknown) => void;
+  token?: string;
+  setToken: (token?: string) => void;
 };
 
 const CartContext = createContext<CartValues>({
   items: [],
   setItems: () => {},
   setError: () => {},
+  setToken: () => {},
 });
 export default CartContext;

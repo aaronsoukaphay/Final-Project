@@ -28,7 +28,7 @@ export default function Cart() {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify({ size, quantity }),
       };
@@ -51,7 +51,7 @@ export default function Cart() {
       const request = {
         method: 'DELETE',
         headers: {
-          Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       };
       await fetch(`/api/carts/${cartId}`, request);

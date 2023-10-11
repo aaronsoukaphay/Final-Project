@@ -1,10 +1,12 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './SignInForm.css';
+import CartContext from './CartContext';
 
 export default function SignInForm() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { setToken } = useContext(CartContext);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -22,7 +24,8 @@ export default function SignInForm() {
         throw new Error(`fetch Error ${res.status}`);
       }
       const { user, token } = await res.json();
-      sessionStorage.setItem('token', token);
+      localStorage.setItem('token', token);
+      setToken(token);
       if (token) navigate('/');
       console.log('Signed In', user, '; received token:', token);
     } catch (err) {

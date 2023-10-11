@@ -10,7 +10,7 @@ export default function Header() {
   const { teamId } = useParams();
   const [team, setTeam] = useState();
   const [error, setError] = useState<any>();
-  const { items } = useContext(CartContext);
+  const { items, setToken } = useContext(CartContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -42,9 +42,10 @@ export default function Header() {
   }
 
   function handleAccount() {
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('token');
     if (token) {
-      sessionStorage.removeItem('token');
+      localStorage.removeItem('token');
+      setToken(undefined);
       navigate('/');
       console.log('User signed out');
     } else {
@@ -82,15 +83,15 @@ function TopBanner({ team, handleAccount, items }) {
       <div className="me-auto ps-4 pageName">{team && 'TOUCHDOWN THREADS'}</div>
       <div className="p-2">
         <a href="#" onClick={handleAccount} className="text-dark account">
-          {sessionStorage.getItem('token') ? 'Sign Out' : 'Sign In'}
+          {localStorage.getItem('token') ? 'Sign Out' : 'Sign In'}
         </a>
       </div>
-      {sessionStorage.getItem('token') && (
+      {localStorage.getItem('token') && (
         <div className="mx-4">
           <Link to={`/cart`}>
             <BsCart style={{ color: 'black' }} className="cart" size={25} />
             <div className="cartNumber rounded-circle text-decoration-none">
-              {items.length}
+              {items.length > 0 && items.length}
             </div>
           </Link>
         </div>

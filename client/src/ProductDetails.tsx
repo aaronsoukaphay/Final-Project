@@ -58,7 +58,7 @@ export default function ProductDetails() {
       window.alert('Please select both a size and quantity.');
       return;
     }
-    if (!sessionStorage.getItem('token')) {
+    if (!localStorage.getItem('token')) {
       window.alert('Please sign in to add to cart');
       navigate('/sign-in');
       return;
@@ -68,7 +68,7 @@ export default function ProductDetails() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify(data),
       };
@@ -76,14 +76,13 @@ export default function ProductDetails() {
       if (!response.ok)
         throw new Error(`HTTP error! Status: ${response.status}`);
       const cartData = await response.json();
-      const updatedCart = [...items];
       const newItem = {
         ...cartData,
         productName: product.productName,
         productImage: product.productImage,
         price: product.price,
       };
-      updatedCart.push(newItem);
+      const updatedCart = [...items, newItem];
       setItems(updatedCart);
       console.log(updatedCart);
       navigate(`/cart`);
