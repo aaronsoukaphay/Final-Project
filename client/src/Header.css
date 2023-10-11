@@ -7,3 +7,22 @@
   font-family: 'Noto Sans', sans-serif;
   font-weight: 800;
 }
+
+.searchBar:focus {
+  outline: none;
+}
+
+.account:hover {
+  text-decoration: underline;
+}
+
+.cartNumber {
+  position: absolute;
+  top: 1px;
+  right: 16px;
+  font-size: small;
+  background-color: red;
+  color: white;
+  width: 1.7%;
+  text-align: center;
+}

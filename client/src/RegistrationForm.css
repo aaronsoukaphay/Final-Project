@@ -1,0 +1,7 @@
+.register {
+  width: 40%;
+}
+
+.registerBtn:hover {
+  background-color: darkgrey;
+}

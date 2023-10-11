@@ -1,15 +1,16 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link, Outlet, useParams, useNavigate } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
 import { BsCart } from 'react-icons/bs';
 import { FaSearch } from 'react-icons/fa';
 import './Header.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import CartContext from './CartContext';
 
 export default function Header() {
   const { teamId } = useParams();
   const [team, setTeam] = useState();
   const [error, setError] = useState<any>();
+  const { items, setToken } = useContext(CartContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -41,9 +42,10 @@ export default function Header() {
   }
 
   function handleAccount() {
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('token');
     if (token) {
-      sessionStorage.removeItem('token');
+      localStorage.removeItem('token');
+      setToken(undefined);
       navigate('/');
       console.log('User signed out');
     } else {
@@ -63,7 +65,11 @@ export default function Header() {
 
   return (
     <div>
-      <TopBanner team={team} handleAccount={() => handleAccount()} />
+      <TopBanner
+        team={team}
+        handleAccount={() => handleAccount()}
+        items={items}
+      />
       <BottomBanner team={team} handleSubmit={(e) => handleSubmit(e)} />
       <NavBar team={team} />
       <Outlet />
@@ -71,22 +77,25 @@ export default function Header() {
   );
 }
 
-function TopBanner({ team, handleAccount }) {
+function TopBanner({ team, handleAccount, items }) {
   return (
     <div className="d-flex align-items-center">
       <div className="me-auto ps-4 pageName">{team && 'TOUCHDOWN THREADS'}</div>
       <div className="p-2">
-        <Button onClick={handleAccount}>
-          {sessionStorage.getItem('token') ? 'Sign Out' : 'Sign In'}
-        </Button>
+        <a href="#" onClick={handleAccount} className="text-dark account">
+          {localStorage.getItem('token') ? 'Sign Out' : 'Sign In'}
+        </a>
       </div>
-      <div className="mx-4">
-        {sessionStorage.getItem('token') && (
+      {localStorage.getItem('token') && (
+        <div className="mx-4">
           <Link to={`/cart`}>
-            <BsCart />
+            <BsCart style={{ color: 'black' }} className="cart" size={25} />
+            <div className="cartNumber rounded-circle text-decoration-none">
+              {items.length > 0 && items.length}
+            </div>
           </Link>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -112,9 +121,9 @@ function BottomBanner({ team, handleSubmit }) {
             placeholder="Search products..."
             name="search"
             type="search"
-            className="p-1 rounded-start"
+            className="p-1 rounded-start border-1 border-black searchBar"
           />
-          <button className="py-1 px-2 rounded-end">
+          <button className="py-1 px-2 rounded-end border-1 border-black">
             <FaSearch />
           </button>
         </form>

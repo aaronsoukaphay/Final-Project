@@ -104,12 +104,6 @@ app.get('/api/products/:category', async (req, res, next) => {
     `;
     const result = await db.query(sql, [category]);
     const products = result.rows;
-    if (!products[0]) {
-      throw new ClientError(
-        404,
-        `cannot find products with category: ${category}`
-      );
-    }
     res.json(products);
   } catch (err: any) {
     next(err);
@@ -184,12 +178,6 @@ app.get('/api/search', async (req, res, next) => {
     `;
     const result = await db.query(sql, [query]);
     const foundProducts = result.rows;
-    // if (!foundProducts[0]) {
-    //   throw new ClientError(
-    //     404,
-    //     `cannot find data for data with the search: ${query}`
-    //   );
-    // }
     res.json(foundProducts);
   } catch (err: any) {
     next(err);
@@ -292,7 +280,7 @@ function validateId(id: number) {
   }
 }
 
-const sizes = ['S', 'M', 'L', 'XL'];
+const sizes = ['XS', 'S', 'M', 'L', 'XL'];
 
 function validateReq(size: string, quantity: number) {
   if (!sizes.includes(size))

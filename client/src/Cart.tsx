@@ -1,41 +1,19 @@
-import { useEffect, useState } from 'react';
-import { DropdownButton, Dropdown } from 'react-bootstrap';
-import { Button } from 'react-bootstrap';
+import { useContext } from 'react';
+import { DropdownButton, Dropdown, Row, Col, Container } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import CartContext from './CartContext';
 
 export default function Cart() {
-  const [error, setError] = useState<any>();
-  const [items, setItems] = useState<any[]>([]);
+  const { items, setItems, error, setError } = useContext(CartContext);
+  const navigate = useNavigate();
+  const sizes = ['XS', 'S', 'M', 'L', 'XL'];
+  const quantities = [1, 2, 3, 4, 5];
 
   let subtotal = 0;
 
   items.forEach((item) => (subtotal += item.price * item.quantity));
   const taxes = subtotal * 0.0725;
   const total = subtotal + taxes;
-
-  useEffect(() => {
-    async function getCartInfo() {
-      setError(undefined);
-      try {
-        const request = {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
-          },
-        };
-        const response = await fetch(`/api/carts/read-in-cart`, request);
-        if (!response.ok) throw new Error(`HTTP error ${response.status}`);
-        const cartContents: any[] = await response.json();
-        cartContents.sort((a, b) => a.cartId - b.cartId);
-        setItems(cartContents);
-      } catch (err: any) {
-        console.log(err.message);
-        setError(err);
-      }
-    }
-    if (sessionStorage.getItem('token')) {
-      getCartInfo();
-    }
-  }, []);
 
   if (error) {
     console.error('Fetch error:', error);
@@ -50,7 +28,7 @@ export default function Cart() {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify({ size, quantity }),
       };
@@ -73,7 +51,7 @@ export default function Cart() {
       const request = {
         method: 'DELETE',
         headers: {
-          Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       };
       await fetch(`/api/carts/${cartId}`, request);
@@ -89,93 +67,82 @@ export default function Cart() {
     <div className="p-5 d-flex">
       <div className="col-7 me-auto">
         <h2>Order Details</h2>
-        <div>Your order will be with you soon.</div>
-        <div className="d-flex mt-4">
-          <div className="col-3 d-flex flex-column">
-            <div className="text-center border-bottom border-2 border-dark pb-1">
-              Product
-            </div>
-            {items.map((item, i) => (
-              <div key={i} className="text-center mt-2">
-                <img src={item.productImage} width="60%" />
-              </div>
-            ))}
-          </div>
-          <div className="d-flex flex-column justify-content-between">
-            <div className="border-bottom border-2 border-dark pb-1">
-              Description
-            </div>
-            {items.map((item, i) => (
-              <div key={i} className="d-flex flex-column mt-2 pb-5">
-                <div>{item.productName}</div>
-                <DropdownButton id="dropdown-basic-button" title={item.size}>
+        <div>Thank you for shopping with us!</div>
+        <Row className="border-bottom py-2 mt-3 fw-bold">
+          <Col>Product</Col>
+          <Col xs={5}>Description</Col>
+          <Col>Quantity</Col>
+          <Col className="text-center">Subtotal</Col>
+        </Row>
+        {!items[0] && (
+          <Container>
+            <Row className="text-center mt-5 mb-2">
+              <Col>Your Shopping cart is currently empty</Col>
+            </Row>
+            <Row className="text-center">
+              <Col>
+                <button
+                  onClick={() => navigate('/')}
+                  className="border-1 rounded px-3 py-2">
+                  Continue Shopping
+                </button>
+              </Col>
+            </Row>
+          </Container>
+        )}
+        {items.map((item, index) => (
+          <Row key={index} className="py-2 border-bottom ">
+            <Col className="text-center">
+              <img src={item.productImage} width="80%" />
+            </Col>
+            <Col xs={5}>
+              <div>{item.productName}</div>
+              <DropdownButton
+                className="py-3"
+                id="dropdown-basic-button"
+                size="sm"
+                variant="secondary"
+                title={item.size}>
+                {sizes.map((size, index) => (
                   <Dropdown.Item
-                    onClick={() => updateCart(item.cartId, 'S', item.quantity)}>
-                    S
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    onClick={() => updateCart(item.cartId, 'M', item.quantity)}>
-                    M
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    onClick={() => updateCart(item.cartId, 'L', item.quantity)}>
-                    L
-                  </Dropdown.Item>
-                  <Dropdown.Item
+                    key={index}
                     onClick={() =>
-                      updateCart(item.cartId, 'XL', item.quantity)
+                      updateCart(item.cartId, size, item.quantity)
                     }>
-                    XL
+                    {size}
                   </Dropdown.Item>
-                </DropdownButton>
-              </div>
-            ))}
-          </div>
-          <div className="col-2 d-flex flex-column justify-content-between">
-            <div className="border-bottom border-2 border-dark pb-1">
-              Quantity
-            </div>
-            {items.map((item, i) => (
-              <div key={i} className="mt-2 mb-5 pb-5">
-                <DropdownButton
-                  id="dropdown-basic-button"
-                  title={item.quantity}>
+                ))}
+              </DropdownButton>
+            </Col>
+            <Col>
+              <DropdownButton
+                className="py-2"
+                id="dropdown-basic-button"
+                size="sm"
+                variant="secondary"
+                title={item.quantity}>
+                {quantities.map((quantity, index) => (
                   <Dropdown.Item
-                    onClick={() => updateCart(item.cartId, item.size, 1)}>
-                    1
+                    key={index}
+                    onClick={() =>
+                      updateCart(item.cartId, item.size, quantity)
+                    }>
+                    {quantity}
                   </Dropdown.Item>
-                  <Dropdown.Item
-                    onClick={() => updateCart(item.cartId, item.size, 2)}>
-                    2
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    onClick={() => updateCart(item.cartId, item.size, 3)}>
-                    3
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    onClick={() => updateCart(item.cartId, item.size, 4)}>
-                    4
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    onClick={() => updateCart(item.cartId, item.size, 5)}>
-                    5
-                  </Dropdown.Item>
-                </DropdownButton>
-              </div>
-            ))}
-          </div>
-          <div className="col-2 d-flex flex-column justify-content-between">
-            <div className="border-bottom border-2 border-dark pb-1">
-              Subtotal
-            </div>
-            {items.map((item, i) => (
-              <div key={i} className="mt-2 pb-5 mb-5">
-                <div>{`$${(item.price * item.quantity).toFixed(2)}`}</div>
-                <Button onClick={() => deleteCart(item.cartId)}>Remove</Button>
-              </div>
-            ))}
-          </div>
-        </div>
+                ))}
+              </DropdownButton>
+            </Col>
+            <Col className="d-flex flex-column justify-content-between align-items-center">
+              <div>{`$${(item.price * item.quantity).toFixed(2)}`}</div>
+              <a
+                href="#"
+                onClick={() => deleteCart(item.cartId)}
+                className="link-dark">
+                Remove
+              </a>
+            </Col>
+          </Row>
+        ))}
       </div>
       <div className="col-4">
         <h3 className="mb-4">Order Summary</h3>
