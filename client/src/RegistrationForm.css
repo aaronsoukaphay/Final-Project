@@ -1,7 +1,7 @@
-.signIn {
+.register {
   width: 40%;
 }
 
-.button:hover {
+.registerBtn:hover {
   background-color: darkgrey;
 }

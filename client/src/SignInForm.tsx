@@ -36,7 +36,7 @@ export default function SignInForm() {
     <div className="d-flex justify-content-center">
       <div className="border border-4 border-black mt-5 p-4 signIn">
         <div className="row mb-3">
-          <div className="column-full ">
+          <div className="col">
             <h3>Sign In</h3>
             <div>
               Not a member yet?{' '}
@@ -48,7 +48,7 @@ export default function SignInForm() {
         </div>
         <form onSubmit={handleSubmit}>
           <div className="row margin-bottom-1">
-            <div className="column-half">
+            <div className="col">
               <label className="mb-2 d-block">
                 Username
                 <input
@@ -72,11 +72,11 @@ export default function SignInForm() {
             </div>
           </div>
           <div className="row">
-            <div className="column-full d-flex justify-between">
+            <div className="col">
               <button
                 style={{ width: '100%' }}
                 disabled={isLoading}
-                className="py-2 mt-4 rounded border-1">
+                className="py-2 mt-4 rounded border-1 button">
                 Sign In
               </button>
             </div>

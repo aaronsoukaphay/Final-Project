@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
-import { DropdownButton, Dropdown, Row, Col } from 'react-bootstrap';
+import { DropdownButton, Dropdown, Row, Col, Container } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 export default function Cart() {
   const [error, setError] = useState<any>();
   const [items, setItems] = useState<any[]>([]);
+  const [empty, setEmpty] = useState(true);
+  const navigate = useNavigate();
   const sizes = ['XS', 'S', 'M', 'L', 'XL'];
   const quantities = [1, 2, 3, 4, 5];
 
@@ -33,10 +36,14 @@ export default function Cart() {
         setError(err);
       }
     }
-    if (sessionStorage.getItem('token')) {
+    if (items[0]) {
       getCartInfo();
+      setEmpty(false);
+    } else {
+      setEmpty(true);
     }
-  }, []);
+    getCartInfo();
+  }, [items]);
 
   if (error) {
     console.error('Fetch error:', error);
@@ -90,13 +97,29 @@ export default function Cart() {
     <div className="p-5 d-flex">
       <div className="col-7 me-auto">
         <h2>Order Details</h2>
-        <div>Your order will be with you soon.</div>
+        <div>Thank you for shopping with us!</div>
         <Row className="border-bottom py-2 mt-3 fw-bold">
           <Col>Product</Col>
           <Col xs={5}>Description</Col>
           <Col>Quantity</Col>
           <Col className="text-center">Subtotal</Col>
         </Row>
+        {empty && (
+          <Container>
+            <Row className="text-center mt-5 mb-2">
+              <Col>Your Shopping cart is currently empty</Col>
+            </Row>
+            <Row className="text-center">
+              <Col>
+                <button
+                  onClick={() => navigate('/')}
+                  className="border-1 rounded px-3 py-2">
+                  Continue Shopping
+                </button>
+              </Col>
+            </Row>
+          </Container>
+        )}
         {items.map((item, index) => (
           <Row key={index} className="py-2 border-bottom ">
             <Col>
