@@ -1,9 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import './ProductDetails.css';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Dropdown, DropdownButton } from 'react-bootstrap';
+import CartContext from './CartContext';
 
 export default function ProductDetails() {
+  const { items, setItems } = useContext(CartContext);
   const { productId } = useParams();
   const [product, setProduct] = useState<any>({});
   const [error, setError] = useState<any>();
@@ -74,10 +76,18 @@ export default function ProductDetails() {
       if (!response.ok)
         throw new Error(`HTTP error! Status: ${response.status}`);
       const cartData = await response.json();
-      if (cartData) {
-        navigate(`/cart`);
-        console.log('Added to cart!:', cartData);
-      }
+      const updatedCart = [...items];
+      const newItem = {
+        ...cartData,
+        productName: product.productName,
+        productImage: product.productImage,
+        price: product.price,
+      };
+      updatedCart.push(newItem);
+      setItems(updatedCart);
+      console.log(updatedCart);
+      navigate(`/cart`);
+      console.log('Added to cart!:', cartData);
     } catch (err: any) {
       console.log(err.message);
       setError(err);

@@ -3,12 +3,14 @@ import { Link, Outlet, useParams, useNavigate } from 'react-router-dom';
 import { BsCart } from 'react-icons/bs';
 import { FaSearch } from 'react-icons/fa';
 import './Header.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import CartContext from './CartContext';
 
 export default function Header() {
   const { teamId } = useParams();
   const [team, setTeam] = useState();
   const [error, setError] = useState<any>();
+  const { items } = useContext(CartContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -62,7 +64,11 @@ export default function Header() {
 
   return (
     <div>
-      <TopBanner team={team} handleAccount={() => handleAccount()} />
+      <TopBanner
+        team={team}
+        handleAccount={() => handleAccount()}
+        items={items}
+      />
       <BottomBanner team={team} handleSubmit={(e) => handleSubmit(e)} />
       <NavBar team={team} />
       <Outlet />
@@ -70,7 +76,7 @@ export default function Header() {
   );
 }
 
-function TopBanner({ team, handleAccount }) {
+function TopBanner({ team, handleAccount, items }) {
   return (
     <div className="d-flex align-items-center">
       <div className="me-auto ps-4 pageName">{team && 'TOUCHDOWN THREADS'}</div>
@@ -79,13 +85,16 @@ function TopBanner({ team, handleAccount }) {
           {sessionStorage.getItem('token') ? 'Sign Out' : 'Sign In'}
         </a>
       </div>
-      <div className="mx-4">
-        {sessionStorage.getItem('token') && (
+      {sessionStorage.getItem('token') && (
+        <div className="mx-4">
           <Link to={`/cart`}>
-            <BsCart style={{ color: 'black' }} />
+            <BsCart style={{ color: 'black' }} className="cart" size={25} />
+            <div className="cartNumber rounded-circle text-decoration-none">
+              {items.length}
+            </div>
           </Link>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }

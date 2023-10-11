@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { DropdownButton, Dropdown, Row, Col, Container } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import CartContext from './CartContext';
 
 export default function Cart() {
-  const [error, setError] = useState<any>();
-  const [items, setItems] = useState<any[]>([]);
-  const [empty, setEmpty] = useState(true);
+  const { items, setItems, error, setError } = useContext(CartContext);
   const navigate = useNavigate();
   const sizes = ['XS', 'S', 'M', 'L', 'XL'];
   const quantities = [1, 2, 3, 4, 5];
@@ -15,35 +14,6 @@ export default function Cart() {
   items.forEach((item) => (subtotal += item.price * item.quantity));
   const taxes = subtotal * 0.0725;
   const total = subtotal + taxes;
-
-  useEffect(() => {
-    async function getCartInfo() {
-      setError(undefined);
-      try {
-        const request = {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
-          },
-        };
-        const response = await fetch(`/api/carts/read-in-cart`, request);
-        if (!response.ok) throw new Error(`HTTP error ${response.status}`);
-        const cartContents: any[] = await response.json();
-        cartContents.sort((a, b) => a.cartId - b.cartId);
-        setItems(cartContents);
-      } catch (err: any) {
-        console.log(err.message);
-        setError(err);
-      }
-    }
-    if (items[0]) {
-      getCartInfo();
-      setEmpty(false);
-    } else {
-      setEmpty(true);
-    }
-    getCartInfo();
-  }, [items]);
 
   if (error) {
     console.error('Fetch error:', error);
@@ -104,7 +74,7 @@ export default function Cart() {
           <Col>Quantity</Col>
           <Col className="text-center">Subtotal</Col>
         </Row>
-        {empty && (
+        {!items[0] && (
           <Container>
             <Row className="text-center mt-5 mb-2">
               <Col>Your Shopping cart is currently empty</Col>
@@ -122,7 +92,7 @@ export default function Cart() {
         )}
         {items.map((item, index) => (
           <Row key={index} className="py-2 border-bottom ">
-            <Col>
+            <Col className="text-center">
               <img src={item.productImage} width="80%" />
             </Col>
             <Col xs={5}>
