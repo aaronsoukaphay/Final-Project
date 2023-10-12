@@ -87,7 +87,7 @@ export default function Catalog() {
               key={index}
               lg={3}
               md={4}
-              sm={6}
+              sm={5}
               xs={6}
               className="d-flex justify-content-center">
               <a

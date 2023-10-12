@@ -287,5 +287,9 @@ VALUES
 -- Insert data into the "carts" table
 INSERT INTO carts ("customerId", "productId", "size", "quantity")
 VALUES
-    (1, 3, 'M', 2),
+    (2, 3, 'M', 2),
     (2, 5, 'S', 1);
+
+INSERT INTO customers ("username", "hashedPassword")
+VALUES
+    ('guest', '$argon2id$v=19$m=4096,t=3,p=1$UpQKYjqJP7x+HTXC0D9eDg$+6n+VUBfBm/CCBT1HqjhB9W6FvSuieHw8Pc3qAhW3Ew');

@@ -35,18 +35,45 @@ export default function SignInForm() {
     }
   }
 
+  async function handleGuest() {
+    try {
+      const request = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username: 'guest', password: 'password1' }),
+      };
+      const response = await fetch('/api/customers/sign-in', request);
+      if (!response.ok) {
+        throw new Error(`fetch Error ${response.status}`);
+      }
+      const { user, token } = await response.json();
+      localStorage.setItem('token', token);
+      setToken(token);
+      if (token) navigate('/');
+      console.log('Signed In', user, '; received token:', token);
+    } catch (err) {
+      alert(`Invalid username or password.`);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   return (
     <div className="d-flex justify-content-center">
       <div className="border border-4 border-black mt-5 p-4 signIn">
         <div className="row mb-3">
           <div className="col">
             <h3>Sign In</h3>
-            <div>
-              Not a member yet?{' '}
-              <a href="/register" className="text-dark">
-                CREATE AN ACCOUNT
-              </a>
-            </div>
+            Not a member yet?{' '}
+            <a href="/register" className="text-dark">
+              CREATE AN ACCOUNT
+            </a>{' '}
+            or{' '}
+            <a href="#" onClick={handleGuest} className="text-dark">
+              SIGN IN AS GUEST
+            </a>
           </div>
         </div>
         <form onSubmit={handleSubmit}>

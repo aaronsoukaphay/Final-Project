@@ -142,8 +142,9 @@ function NavBar({ team }) {
     <div
       className="d-flex py-2 navName text-uppercase justify-content-evenly align-items-center"
       style={{ backgroundColor: backgroundColor }}>
-      {navItems.map((navItem) => (
+      {navItems.map((navItem, index) => (
         <a
+          key={index}
           href={navItem === 'home' ? '/' : `/catalog/${navItem}`}
           className="text-decoration-none text-light">
           {navItem}
