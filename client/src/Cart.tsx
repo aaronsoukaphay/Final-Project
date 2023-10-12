@@ -64,6 +64,12 @@ export default function Cart() {
   }
 
   async function handleCheckout() {
+    if (!items[0]) {
+      window.alert(
+        "There is nothing in your cart. Don't forget to add something before you checkout!"
+      );
+      return;
+    }
     try {
       const request = {
         method: 'DELETE',
