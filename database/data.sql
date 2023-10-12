@@ -276,13 +276,13 @@ VALUES
 -- Insert data into the "products" table
 INSERT INTO products ("playerId", "teamId", "category", "productImage", "productName", "price", "gender")
 VALUES
-    (76, 16, 'Jersey', '/images/jerseys/patrick-mahomes.webp', 'Patrick Mahomes Kansas City Chiefs Football Jersey', 130, 'Male'),
-    (126, 26, 'Jersey', '/images/jerseys/jalen-hurts.webp', 'Jalen Hurts Philadelphia Eagles Football Jersey', 130, 'Male'),
-    (31, 7, 'Jersey', '/images/jerseys/joe-burrow.webp', 'Joe Burrow Cincinnati Bengals Football Jersey', 130, 'Male'),
-    (16, 4, 'Jersey', '/images/jerseys/josh-allen.webp', 'Josh Allen Buffalo Bills Football Jersey', 130, 'Male'),
-    (11, 3, 'Jersey', '/images/jerseys/lamar-jackson.webp', 'Lamar Jackson Baltimore Ravens Football Jersey', 130, 'Male'),
-    (137, 28, 'Jersey', '/images/jerseys/george-kittle.webp', 'George Kittle San Francisco 49ers Football Jersey', 130, 'Male'),
-    (17, 4, 'Jersey', '/images/jerseys/stefon-diggs.webp', 'Stefon Diggs Buffalo Bills Football Jersey', 130, 'Male');
+    (76, 16, 'jerseys', '/images/jerseys/patrick-mahomes.webp', 'Patrick Mahomes Kansas City Chiefs Football Jersey', 130, 'Male'),
+    (126, 26, 'jerseys', '/images/jerseys/jalen-hurts.webp', 'Jalen Hurts Philadelphia Eagles Football Jersey', 130, 'Male'),
+    (31, 7, 'jerseys', '/images/jerseys/joe-burrow.webp', 'Joe Burrow Cincinnati Bengals Football Jersey', 130, 'Male'),
+    (16, 4, 'jerseys', '/images/jerseys/josh-allen.webp', 'Josh Allen Buffalo Bills Football Jersey', 130, 'Male'),
+    (11, 3, 'jerseys', '/images/jerseys/lamar-jackson.webp', 'Lamar Jackson Baltimore Ravens Football Jersey', 130, 'Male'),
+    (137, 28, 'jerseys', '/images/jerseys/george-kittle.webp', 'George Kittle San Francisco 49ers Football Jersey', 130, 'Male'),
+    (17, 4, 'jerseys', '/images/jerseys/stefon-diggs.webp', 'Stefon Diggs Buffalo Bills Football Jersey', 130, 'Male');
 
 -- Insert data into the "carts" table
 INSERT INTO carts ("customerId", "productId", "size", "quantity")

@@ -13,6 +13,9 @@ export default function Header() {
   const { items, setToken } = useContext(CartContext);
   const navigate = useNavigate();
 
+  let totalQuantity = 0;
+  items.forEach((item) => (totalQuantity += item.quantity));
+
   useEffect(() => {
     async function getTeamInfo() {
       setError(undefined);
@@ -68,7 +71,7 @@ export default function Header() {
       <TopBanner
         team={team}
         handleAccount={() => handleAccount()}
-        items={items}
+        quantity={totalQuantity}
       />
       <BottomBanner team={team} handleSubmit={(e) => handleSubmit(e)} />
       <NavBar team={team} />
@@ -77,7 +80,7 @@ export default function Header() {
   );
 }
 
-function TopBanner({ team, handleAccount, items }) {
+function TopBanner({ team, handleAccount, quantity }) {
   return (
     <div className="d-flex align-items-center">
       <div className="me-auto ps-4 pageName">{team && 'TOUCHDOWN THREADS'}</div>
@@ -91,7 +94,7 @@ function TopBanner({ team, handleAccount, items }) {
           <Link to={`/cart`}>
             <BsCart style={{ color: 'black' }} className="cart" size={25} />
             <div className="cartNumber rounded-circle text-decoration-none">
-              {items.length > 0 && items.length}
+              {quantity > 0 && quantity}
             </div>
           </Link>
         </div>
@@ -133,23 +136,19 @@ function BottomBanner({ team, handleSubmit }) {
 }
 
 function NavBar({ team }) {
+  const navItems = ['home', 'jerseys', 'men', 'women'];
   const backgroundColor = team ? team.navColor : 'rgb(54,52,54)';
   return (
     <div
       className="d-flex py-2 navName text-uppercase justify-content-evenly align-items-center"
       style={{ backgroundColor: backgroundColor }}>
-      <Link className="text-light text-decoration-none" to="/">
-        Home
-      </Link>
-      <Link className="text-light text-decoration-none" to="/catalog/Jersey">
-        Jerseys
-      </Link>
-      <Link className="text-light text-decoration-none" to="/catalog/men">
-        <div>Men</div>
-      </Link>
-      <Link className="text-light text-decoration-none" to="/catalog/women">
-        <div>Women</div>
-      </Link>
+      {navItems.map((navItem) => (
+        <a
+          href={navItem === 'home' ? '/' : `/catalog/${navItem}`}
+          className="text-decoration-none text-light">
+          {navItem}
+        </a>
+      ))}
     </div>
   );
 }
