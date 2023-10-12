@@ -84,7 +84,7 @@ app.get('/api/teams', async (req, res, next) => {
     const sql = `
       select *
         from "teams"
-        where "teamLogo" != ''
+        where "teamLogo" != '' and "teamIcon" != ''
     `;
     const result = await db.query(sql);
     res.json(result.rows);

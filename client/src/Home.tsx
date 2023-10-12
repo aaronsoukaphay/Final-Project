@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Row, Col, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 export default function Home() {
@@ -13,8 +13,9 @@ export default function Home() {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        const teamLogos = await response.json();
-        setLogos(teamLogos);
+        const teamInfo = await response.json();
+        console.log(teamInfo);
+        setLogos(teamInfo);
       } catch (err: any) {
         console.log(err.message);
         setError(err);
@@ -35,16 +36,17 @@ export default function Home() {
       <div className="text-center my-3">
         <h3>Shop Your Favorite Teams!</h3>
       </div>
-      <div className="row">
-        {logos.map((logo, i) => (
-          <Link
-            to={`/catalog/teams/${logo.teamId}`}
-            key={i}
-            className="col d-flex justify-content-center">
-            <img src={logo.teamLogo} className="img-fluid" />
-          </Link>
-        ))}
-      </div>
+      <Container>
+        <Row className="d-flex justify-content-center">
+          {logos.map((logo, index) => (
+            <Col key={index} className="text-center">
+              <a href={`/catalog/teams/${logo.teamId}`}>
+                {<img src={logo.teamIcon} className="img-fluid w-50 pe-auto" />}
+              </a>
+            </Col>
+          ))}
+        </Row>
+      </Container>
       <div className="row m-4 g-0">
         <div className="col-8">
           <img src="/images/gameday-banner.jpeg" className="img-fluid" />
@@ -67,7 +69,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="row">
+      <div className="row mb-5">
         <img src="/images/dress-like-the-pros.webp" className="img-fluid" />
       </div>
     </>
