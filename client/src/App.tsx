@@ -11,6 +11,7 @@ import Cart from './Cart';
 import NotFound from './NotFound';
 import RegistrationForm from './RegistrationForm';
 import SignInForm from './SignInForm';
+import Checkout from './Checkout';
 
 export type Item = {
   productImage: string;
@@ -67,6 +68,7 @@ export default function App() {
           <Route path="details/:productId" element={<ProductDetails />} />
           <Route path="cart" element={<Cart />} />
           <Route path="search/:searchQuery" element={<Catalog />} />
+          <Route path="checkout" element={<Checkout />} />
           <Route path="register" element={<RegistrationForm />} />
           <Route path="sign-in" element={<SignInForm />} />
           <Route path="*" element={<NotFound />} />

@@ -274,6 +274,25 @@ app.delete('/api/carts/:cartId', authMiddleware, async (req, res, next) => {
   }
 });
 
+// DELETES all cart entries for specific user
+app.delete('/api/clear-cart', authMiddleware, async (req, res, next) => {
+  try {
+    const sql = `
+      delete
+        from "carts"
+        where "customerId" = $1
+        returning *
+      `;
+    const response = await db.query(sql, [req.user!.customerId]);
+    const result = response.rows[0];
+    if (!result) throw new ClientError(404, 'carts were not deleted');
+    res.sendStatus(204);
+  } catch (err: any) {
+    console.log(err.message);
+    next(err);
+  }
+});
+
 function validateId(id: number) {
   if (!Number.isInteger(id) || id <= 0) {
     throw new ClientError(400, 'id must be a positive integer');
