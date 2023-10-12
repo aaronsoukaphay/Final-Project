@@ -14,7 +14,6 @@ export default function Home() {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const teamInfo = await response.json();
-        console.log(teamInfo);
         setLogos(teamInfo);
       } catch (err: any) {
         console.log(err.message);

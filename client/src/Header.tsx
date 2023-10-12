@@ -82,7 +82,7 @@ function TopBanner({ team, handleAccount, items }) {
     <div className="d-flex align-items-center">
       <div className="me-auto ps-4 pageName">{team && 'TOUCHDOWN THREADS'}</div>
       <div className="p-2">
-        <a href="#" onClick={handleAccount} className="text-dark account">
+        <a href="#" onClick={handleAccount} className="text-dark account px-3">
           {localStorage.getItem('token') ? 'Sign Out' : 'Sign In'}
         </a>
       </div>

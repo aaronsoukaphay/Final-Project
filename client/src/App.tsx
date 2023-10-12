@@ -28,6 +28,10 @@ export default function App() {
   const [token, setToken] = useState<string>();
 
   useEffect(() => {
+    const storedToken = localStorage.getItem('token');
+    if (storedToken) {
+      setToken(storedToken);
+    }
     async function getCartInfo() {
       setError(undefined);
       try {
