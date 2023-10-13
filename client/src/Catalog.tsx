@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Card, Row, Col, Container } from 'react-bootstrap';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import './Catalog.css';
 
 export default function Catalog() {
@@ -81,20 +81,34 @@ export default function Catalog() {
         }`}</p>
       )}
       <Container>
-        <Row>
-          {products.map((product, i) => (
-            <Col key={i} className="d-flex justify-content-center">
-              <Link
-                to={`/details/${product.productId}`}
-                className="text-decoration-none">
-                <Card style={{ width: '18rem' }}>
-                  <Card.Img variant="top" src={product.productImage} />
+        <Row className="d-flex">
+          {products.map((product, index) => (
+            <Col
+              key={index}
+              lg={3}
+              md={4}
+              sm={5}
+              xs={6}
+              className="d-flex justify-content-center">
+              <a
+                href={`/details/${product.productId}`}
+                className="text-decoration-none d-flex justify-content-center mb-5">
+                <Card style={{ width: '100%' }} className="card border-0">
+                  <Card.Img
+                    variant="top"
+                    src={product.productImage}
+                    className="w-75 mt-3 align-self-center"
+                  />
                   <Card.Body>
-                    <Card.Title>{product.productName}</Card.Title>
-                    <Card.Text>{`Price: $${product.price}.00`}</Card.Text>
+                    <Card.Title className="card-text">
+                      {product.productName}
+                    </Card.Title>
+                    <Card.Text>{`Price: $${product.price.toFixed(
+                      2
+                    )}`}</Card.Text>
                   </Card.Body>
                 </Card>
-              </Link>
+              </a>
             </Col>
           ))}
         </Row>

@@ -10,6 +10,7 @@ CREATE TABLE "teams" (
   "teamId" serial PRIMARY KEY,
   "teamName" text,
   "teamLogo" text,
+  "teamIcon" text,
   "bannerColor" text,
   "navColor" text
 );

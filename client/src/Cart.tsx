@@ -63,6 +63,28 @@ export default function Cart() {
     }
   }
 
+  async function handleCheckout() {
+    if (!items[0]) {
+      window.alert(
+        "There is nothing in your cart. Don't forget to add something before you checkout!"
+      );
+      return;
+    }
+    try {
+      const request = {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      };
+      await fetch('/api/clear-cart', request);
+      const emptyCart = [];
+      setItems(emptyCart);
+      navigate('/checkout');
+    } catch (err: any) {
+      console.log(err.message);
+      setError(err.message);
+    }
+  }
+
   return (
     <div className="p-5 d-flex">
       <div className="col-7 me-auto">
@@ -159,7 +181,9 @@ export default function Cart() {
             <h4 className="me-auto">Total</h4>
             <div>{`$${total.toFixed(2)}`}</div>
           </div>
-          <button style={{ height: '3rem' }}>Checkout</button>
+          <button style={{ height: '3rem' }} onClick={handleCheckout}>
+            Checkout
+          </button>
         </div>
       </div>
     </div>

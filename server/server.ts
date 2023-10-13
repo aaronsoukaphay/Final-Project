@@ -84,7 +84,7 @@ app.get('/api/teams', async (req, res, next) => {
     const sql = `
       select *
         from "teams"
-        where "teamLogo" != ''
+        where "teamLogo" != '' and "teamIcon" != ''
     `;
     const result = await db.query(sql);
     res.json(result.rows);
@@ -270,6 +270,25 @@ app.delete('/api/carts/:cartId', authMiddleware, async (req, res, next) => {
     validateResult(cartInfo, cartId);
     res.sendStatus(204);
   } catch (err: any) {
+    next(err);
+  }
+});
+
+// DELETES all cart entries for specific user
+app.delete('/api/clear-cart', authMiddleware, async (req, res, next) => {
+  try {
+    const sql = `
+      delete
+        from "carts"
+        where "customerId" = $1
+        returning *
+      `;
+    const response = await db.query(sql, [req.user!.customerId]);
+    const result = response.rows[0];
+    if (!result) throw new ClientError(404, 'carts were not deleted');
+    res.sendStatus(204);
+  } catch (err: any) {
+    console.log(err.message);
     next(err);
   }
 });

@@ -11,40 +11,40 @@
 --      ('Get a job', false);
 
 -- Insert data into the "teams" table with the names of 32 NFL teams
-INSERT INTO teams ("teamName", "teamLogo", "bannerColor", "navColor")
+INSERT INTO teams ("teamName", "teamLogo", "teamIcon", "bannerColor", "navColor")
 VALUES
-    ('Arizona Cardinals', '', 'red', 'black'),
-    ('Atlanta Falcons', '', 'red', 'black'),
-    ('Baltimore Ravens', '/images/baltimore-ravens-logo.svg', 'rgb(35,23,115)', 'black'),
-    ('Buffalo Bills', '/images/buffalo-bills-logo.svg', 'rgb(1,51,141)', 'rgb(198,12,48)'),
-    ('Carolina Panthers', '', 'blue', 'black'),
-    ('Chicago Bears', '', 'navy', 'orange'),
-    ('Cincinnati Bengals', '/images/cincinnati-bengals-logo.svg', 'black', 'rgb(251,79,20)'),
-    ('Cleveland Browns', '', 'orange', 'brown'),
-    ('Dallas Cowboys', '', 'blue', 'silver'),
-    ('Denver Broncos', '', 'orange', 'blue'),
-    ('Detroit Lions', '', 'blue', 'silver'),
-    ('Green Bay Packers', '', 'green', 'gold'),
-    ('Houston Texans', '', 'navy', 'red'),
-    ('Indianapolis Colts', '', 'blue', 'white'),
-    ('Jacksonville Jaguars', '', 'teal', 'black'),
-    ('Kansas City Chiefs', '/images/kansas-city-chiefs-logo.svg', 'rgb(227,24,55)', 'rgb(255,182,19)'),
-    ('Las Vegas Raiders', '', 'black', 'silver'),
-    ('Los Angeles Chargers', '', 'navy', 'gold'),
-    ('Los Angeles Rams', '', 'blue', 'gold'),
-    ('Miami Dolphins', '', 'aqua', 'orange'),
-    ('Minnesota Vikings', '', 'purple', 'gold'),
-    ('New England Patriots', '', 'blue', 'red'),
-    ('New Orleans Saints', '', 'gold', 'black'),
-    ('New York Giants', '', 'blue', 'red'),
-    ('New York Jets', '', 'green', 'white'),
-    ('Philadelphia Eagles', '/images/philadelphia-eagles-logo.svg', 'rgb(0,76,84)', 'rgb(165,172,175)'),
-    ('Pittsburgh Steelers', '', 'black', 'gold'),
-    ('San Francisco 49ers', '/images/san-francisco-49ers-logo.svg', 'rgb(170,0,1)', 'rgb(179,153,93)'),
-    ('Seattle Seahawks', '', 'navy', 'green'),
-    ('Tampa Bay Buccaneers', '', 'red', 'pewter'),
-    ('Tennessee Titans', '', 'navy', 'light blue'),
-    ('Washington Football Team', '', 'burgundy', 'gold');
+    ('Arizona Cardinals', '', '', 'red', 'black'),
+    ('Atlanta Falcons', '', '', 'red', 'black'),
+    ('Baltimore Ravens', '/images/teamLogos/baltimore-ravens-logo.svg', '/images/teamIcons/ravens-icon.svg', 'rgb(35,23,115)', 'black'),
+    ('Buffalo Bills', '/images/teamLogos/buffalo-bills-logo.svg', '/images/teamIcons/bills-icon.svg', 'rgb(1,51,141)', 'rgb(198,12,48)'),
+    ('Carolina Panthers', '', '', 'blue', 'black'),
+    ('Chicago Bears', '', '', 'navy', 'orange'),
+    ('Cincinnati Bengals', '/images/teamLogos/cincinnati-bengals-logo.svg', '/images/teamIcons/bengals-icon.svg', 'black', 'rgb(251,79,20)'),
+    ('Cleveland Browns', '', '', 'orange', 'brown'),
+    ('Dallas Cowboys', '', '', 'blue', 'silver'),
+    ('Denver Broncos', '', '', 'orange', 'blue'),
+    ('Detroit Lions', '', '', 'blue', 'silver'),
+    ('Green Bay Packers', '', '', 'green', 'gold'),
+    ('Houston Texans', '', '', 'navy', 'red'),
+    ('Indianapolis Colts', '', '', 'blue', 'white'),
+    ('Jacksonville Jaguars', '', '', 'teal', 'black'),
+    ('Kansas City Chiefs', '/images/teamLogos/kansas-city-chiefs-logo.svg', '/images/teamIcons/chiefs-icon.svg', 'rgb(227,24,55)', 'rgb(255,182,19)'),
+    ('Las Vegas Raiders', '', '', 'black', 'silver'),
+    ('Los Angeles Chargers', '', '', 'navy', 'gold'),
+    ('Los Angeles Rams', '', '', 'blue', 'gold'),
+    ('Miami Dolphins', '', '', 'aqua', 'orange'),
+    ('Minnesota Vikings', '', '', 'purple', 'gold'),
+    ('New England Patriots', '', '', 'blue', 'red'),
+    ('New Orleans Saints', '', '', 'gold', 'black'),
+    ('New York Giants', '', '', 'blue', 'red'),
+    ('New York Jets', '', '', 'green', 'white'),
+    ('Philadelphia Eagles', '/images/teamLogos/philadelphia-eagles-logo.svg', '/images/teamIcons/eagles-icon.svg', 'rgb(0,76,84)', 'rgb(165,172,175)'),
+    ('Pittsburgh Steelers', '', '', 'black', 'gold'),
+    ('San Francisco 49ers', '/images/teamLogos/san-francisco-49ers-logo.svg', '/images/teamIcons/49ers-icon.svg', 'rgb(170,0,1)', 'rgb(179,153,93)'),
+    ('Seattle Seahawks', '', '', 'navy', 'green'),
+    ('Tampa Bay Buccaneers', '', '', 'red', 'pewter'),
+    ('Tennessee Titans', '', '', 'navy', 'light blue'),
+    ('Washington Football Team', '', '', 'burgundy', 'gold');
 
 -- Insert data into the "players" table with 5 popular players for each of the 32 NFL teams
 INSERT INTO players ("teamId", "firstName", "lastName")
@@ -276,22 +276,27 @@ VALUES
 -- Insert data into the "products" table
 INSERT INTO products ("playerId", "teamId", "category", "productImage", "productName", "price", "gender")
 VALUES
-    (76, 16, 'Jersey', '/images/patrick-mahomes.webp', 'Patrick Mahomes Kansas City Chiefs Football Jersey', 130, 'Male'),
-    (126, 26, 'Jersey', '/images/jalen-hurts.webp', 'Jalen Hurts Philadelphia Eagles Football Jersey', 130, 'Male'),
-    (31, 7, 'Jersey', '/images/joe-burrow.webp', 'Joe Burrow Cincinnati Bengals Football Jersey', 130, 'Male'),
-    (16, 4, 'Jersey', '/images/josh-allen.webp', 'Josh Allen Buffalo Bills Football Jersey', 130, 'Male'),
-    (11, 3, 'Jersey', '/images/lamar-jackson.webp', 'Lamar Jackson Baltimore Ravens Football Jersey', 130, 'Male'),
-    (137, 28, 'Jersey', '/images/george-kittle.webp', 'George Kittle San Francisco 49ers Football Jersey', 130, 'Male'),
-    (17, 4, 'Jersey', '/images/stefon-diggs.webp', 'Stefon Diggs Buffalo Bills Football Jersey', 130, 'Male');
+    (76, 16, 'jerseys', '/images/jerseys/patrick-mahomes.webp', 'Patrick Mahomes Kansas City Chiefs Football Jersey', 130, 'Male'),
+    (78, 16, 'jerseys', '/images/jerseys/travis-kelce.webp', 'Travis Kelce Kansas City Chiefs Football Jersey', 130, 'Male'),
+    (126, 26, 'jerseys', '/images/jerseys/jalen-hurts.webp', 'Jalen Hurts Philadelphia Eagles Football Jersey', 130, 'Male'),
+    (31, 7, 'jerseys', '/images/jerseys/joe-burrow.webp', 'Joe Burrow Cincinnati Bengals Football Jersey', 130, 'Male'),
+    (16, 4, 'jerseys', '/images/jerseys/josh-allen.webp', 'Josh Allen Buffalo Bills Football Jersey', 130, 'Male'),
+    (11, 3, 'jerseys', '/images/jerseys/lamar-jackson.webp', 'Lamar Jackson Baltimore Ravens Football Jersey', 130, 'Male'),
+    (137, 28, 'jerseys', '/images/jerseys/george-kittle.webp', 'George Kittle San Francisco 49ers Football Jersey', 130, 'Male'),
+    (17, 4, 'jerseys', '/images/jerseys/stefon-diggs.webp', 'Stefon Diggs Buffalo Bills Football Jersey', 130, 'Male'),
+    (1, 3, 'men', '/images/men/ravens-hoodie.webp', 'Antigua Baltimore Ravens Mens Grey Victory Long Sleeve Hoodie', 90, 'Male'),
+    (1, 28, 'men', '/images/men/49ers-sweater.jpeg', 'Antigua San Francisco 49ers Long Sleeve 1/4 Zip Pullover', 110, 'Male'),
+    (1, 4, 'men', '/images/men/bills-t-shirt.webp', 'Nike Buffalo Bills Blue Logo Short Sleeve T Shirt', 35, 'Male'),
+    (1, 26, 'women', '/images/women/eagles-zip-up.webp', 'Antigua Philadelphia Eagles Womens Black Generation Light Weight Jacket', 90, 'Female'),
+    (1, 16, 'women', '/images/women/chiefs-zip-up.webp', 'Antigua Kansas City Chiefs Womens Red Generation Light Weight Jacket', 90, 'Female'),
+    (1, 7, 'women', '/images/women/bengals-crewneck.jpeg', 'Cincinnati Bengals Womens Grey Burnout Crew Sweatshirt', 80, 'Female');
 
 -- Insert data into the "carts" table
 INSERT INTO carts ("customerId", "productId", "size", "quantity")
 VALUES
-    (1, 3, 'M', 2),
+    (2, 3, 'M', 2),
     (2, 5, 'S', 1);
 
--- -- Insert data into the "customers" table
--- INSERT INTO customers ( "username", "hashedPassword")
--- VALUES
---     ('admin', 'password1'),
---     ('aaron', 'soukaphay1');
+INSERT INTO customers ("username", "hashedPassword")
+VALUES
+    ('guest', '$argon2id$v=19$m=4096,t=3,p=1$UpQKYjqJP7x+HTXC0D9eDg$+6n+VUBfBm/CCBT1HqjhB9W6FvSuieHw8Pc3qAhW3Ew');
