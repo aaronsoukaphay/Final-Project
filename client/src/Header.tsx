@@ -150,7 +150,7 @@ function BottomBanner({ team, handleSubmit }) {
               <h2>touchdown threads</h2>
             </Col>
           )}
-          <Col lg={3}>
+          <Col className="text-end" lg={4} md={5} sm={5} xs={6}>
             <form onSubmit={handleSubmit}>
               <input
                 placeholder="Search products..."

@@ -61,7 +61,7 @@ export default function Home() {
               season in style!
             </p>
             <div>
-              <Link to="/catalog/Jersey">
+              <Link to="/catalog/jerseys">
                 <Button>Shop NFL Jerseys</Button>
               </Link>
             </div>
