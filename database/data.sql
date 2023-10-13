@@ -277,6 +277,7 @@ VALUES
 INSERT INTO products ("playerId", "teamId", "category", "productImage", "productName", "price", "gender")
 VALUES
     (76, 16, 'jerseys', '/images/jerseys/patrick-mahomes.webp', 'Patrick Mahomes Kansas City Chiefs Football Jersey', 130, 'Male'),
+    (78, 16, 'jerseys', '/images/jerseys/travis-kelce.webp', 'Travis Kelce Kansas City Chiefs Football Jersey', 130, 'Male'),
     (126, 26, 'jerseys', '/images/jerseys/jalen-hurts.webp', 'Jalen Hurts Philadelphia Eagles Football Jersey', 130, 'Male'),
     (31, 7, 'jerseys', '/images/jerseys/joe-burrow.webp', 'Joe Burrow Cincinnati Bengals Football Jersey', 130, 'Male'),
     (16, 4, 'jerseys', '/images/jerseys/josh-allen.webp', 'Josh Allen Buffalo Bills Football Jersey', 130, 'Male'),

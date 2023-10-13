@@ -3,6 +3,11 @@
   font-size: 2rem;
 }
 
+.pageNameTop {
+  font-family: Graduate, serif;
+  font-size: 1rem;
+}
+
 .navName {
   font-family: 'Noto Sans', sans-serif;
   font-weight: 800;
@@ -12,8 +17,8 @@
   outline: none;
 }
 
-.account:hover {
-  text-decoration: underline;
+.account {
+  font-size: 1rem;
 }
 
 .cartNumber {
