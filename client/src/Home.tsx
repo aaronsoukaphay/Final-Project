@@ -36,41 +36,35 @@ export default function Home() {
         <h3>Shop Your Favorite Teams!</h3>
       </div>
       <Container>
-        <Row className="d-flex justify-content-center">
+        <Row className="justify-content-evenly">
           {logos.map((logo, index) => (
-            <Col key={index} className="text-center">
+            <Col key={index} className="text-center" lg={1} xs={2}>
               <a href={`/catalog/teams/${logo.teamId}`}>
-                {<img src={logo.teamIcon} className="img-fluid w-50 pe-auto" />}
+                {<img src={logo.teamIcon} className="img-fluid" />}
               </a>
             </Col>
           ))}
         </Row>
       </Container>
-      <div className="row m-4 g-0">
-        <div className="col-8">
+      <Row className="p-4">
+        <Col className="p-0" md={8}>
           <img src="/images/gameday-banner.jpeg" className="img-fluid" />
-        </div>
-        <div className="col bg-dark text-white">
-          <div className="container p-4 d-flex flex-column align-items-left">
-            <div>
-              <h4>FOOTBALL IS BACK!</h4>
-            </div>
-            <p className="fs-6">
-              Get ready for the new season with the latest and greatest in NFL
-              gear! Shop jerseys for the whole family and rep your team this
-              season in style!
-            </p>
-            <div>
-              <Link to="/catalog/jerseys">
-                <Button>Shop NFL Jerseys</Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="row mb-5">
+        </Col>
+        <Col className="bg-dark text-white p-3">
+          <h4>FOOTBALL IS BACK!</h4>
+          <p className="fs-6">
+            Get ready for the new season with the latest and greatest in NFL
+            gear! Shop jerseys for the whole family and rep your team this
+            season in style!
+          </p>
+          <Link to="/catalog/jerseys">
+            <Button>Shop NFL Jerseys</Button>
+          </Link>
+        </Col>
+      </Row>
+      <Row className="mb-5">
         <img src="/images/dress-like-the-pros.webp" className="img-fluid" />
-      </div>
+      </Row>
     </>
   );
 }
