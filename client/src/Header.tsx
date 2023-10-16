@@ -83,50 +83,32 @@ export default function Header() {
 
 function TopBanner({ team, handleAccount, quantity }) {
   return (
-    // <Row className="justify-content-end align-items-center py-2 mx-2">
-    //   {team && (
-    //     <Col>
-    //       <h2>touchdown threads</h2>
-    //     </Col>
-    //   )}
-    //   <Col xs={2} className="px-2 text-end">
-    //     <a href="#" onClick={handleAccount} className="text-dark">
-    //       <p className="m-0 account">
-    //         {localStorage.getItem('token') ? 'Sign Out' : 'Sign In'}
-    //       </p>
-    //     </a>
-    //   </Col>
-    //   {localStorage.getItem('token') && (
-    //     <Col xs={1} className="text-end">
-    //       <Link to={`/cart`}>
-    //         <BsCart style={{ color: 'black' }} className="cart" xs={15} />
-    //         <div className="cartNumber rounded-circle text-decoration-none">
-    //           {quantity > 0 && quantity}
-    //         </div>
-    //       </Link>
-    //     </Col>
-    //   )}
-    // </Row>
-
-    //not mobile friendly
-    <div className="d-flex align-items-center">
-      <div className="me-auto ps-4 pageName">{team && 'TOUCHDOWN THREADS'}</div>
-      <div className="p-2">
-        <a href="#" onClick={handleAccount} className="text-dark account px-3">
-          {localStorage.getItem('token') ? 'Sign Out' : 'Sign In'}
+    <Row
+      className="justify-content-between align-items-center py-2 mx-3"
+      md="auto">
+      <Col xs={7}>
+        {team && <h3 className="topBannerName my-0">TOUCHDOWN THREADS</h3>}
+      </Col>
+      <Col className="px-2 d-flex justify-content-end">
+        <a href="#" onClick={handleAccount} className="text-dark px-4">
+          <p className="m-0 account">
+            {localStorage.getItem('token') ? 'Sign Out' : 'Sign In'}
+          </p>
         </a>
-      </div>
-      {localStorage.getItem('token') && (
-        <div className="mx-4">
+        {localStorage.getItem('token') && (
           <Link to={`/cart`}>
-            <BsCart style={{ color: 'black' }} className="cart" size={25} />
-            <div className="cartNumber rounded-circle text-decoration-none">
-              {quantity > 0 && quantity}
+            <div className="cart">
+              <BsCart style={{ color: 'black' }} size={20} />
+              {quantity > 0 && (
+                <div className="cartNumber text-decoration-none">
+                  {quantity}
+                </div>
+              )}
             </div>
           </Link>
-        </div>
-      )}
-    </div>
+        )}
+      </Col>
+    </Row>
   );
 }
 
@@ -135,22 +117,17 @@ function BottomBanner({ team, handleSubmit }) {
   return (
     <div style={{ backgroundColor: backgroundColor }}>
       <Container>
-        <Row className="d-flex align-items-center justify-content-between">
-          {team ? (
-            <Col
-              className="pageName text-center py-2"
-              lg={3}
-              md={3}
-              sm={3}
-              xs={4}>
-              <img src={team.teamLogo} className="img-fluid w-75" />
-            </Col>
-          ) : (
-            <Col className="pageName text-dark text-center py-4" lg={5}>
-              <h2>touchdown threads</h2>
-            </Col>
-          )}
-          <Col className="text-end" lg={4} md={5} sm={5} xs={6}>
+        <Row
+          className="align-items-center py-3 justify-content-center justify-content-md-between"
+          md="auto">
+          <Col className="d-flex justify-content-center">
+            {team ? (
+              <img src={team.teamLogo} className="img-fluid" width="50%" />
+            ) : (
+              <h2 className="bottomBannerName">touchdown threads</h2>
+            )}
+          </Col>
+          <Col className="d-flex justify-content-center" xs={12}>
             <form onSubmit={handleSubmit}>
               <input
                 placeholder="Search products..."
@@ -173,17 +150,22 @@ function NavBar({ team }) {
   const navItems = ['home', 'jerseys', 'men', 'women'];
   const backgroundColor = team ? team.navColor : 'rgb(54,52,54)';
   return (
-    <div
-      className="d-flex py-2 navName text-uppercase justify-content-evenly align-items-center"
-      style={{ backgroundColor: backgroundColor }}>
-      {navItems.map((navItem, index) => (
-        <a
-          key={index}
-          href={navItem === 'home' ? '/' : `/catalog/${navItem}`}
-          className="text-decoration-none text-light">
-          {navItem}
-        </a>
-      ))}
+    <div style={{ backgroundColor: backgroundColor }}>
+      <Container>
+        <Row
+          className="py-2 navName text-uppercase justify-content-evenly align-items-center"
+          md="auto">
+          {navItems.map((navItem, index) => (
+            <Col className="text-center" key={index}>
+              <a
+                href={navItem === 'home' ? '/' : `/catalog/${navItem}`}
+                className="text-decoration-none text-light">
+                {navItem}
+              </a>
+            </Col>
+          ))}
+        </Row>
+      </Container>
     </div>
   );
 }
