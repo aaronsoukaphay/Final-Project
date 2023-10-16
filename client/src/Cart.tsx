@@ -86,106 +86,115 @@ export default function Cart() {
   }
 
   return (
-    <div className="p-5 d-flex">
-      <div className="col-7 me-auto">
-        <h2>Order Details</h2>
-        <div>Thank you for shopping with us!</div>
-        <Row className="border-bottom py-2 mt-3 fw-bold">
-          <Col>Product</Col>
-          <Col xs={5}>Description</Col>
-          <Col>Quantity</Col>
-          <Col className="text-center">Subtotal</Col>
-        </Row>
-        {!items[0] && (
-          <Container>
-            <Row className="text-center mt-5 mb-2">
-              <Col>Your Shopping cart is currently empty</Col>
-            </Row>
-            <Row className="text-center">
+    <Container>
+      <Row className="mt-3 justify-content-between">
+        <Col lg={7}>
+          <h2>Order Details</h2>
+          <div>Thank you for shopping with us!</div>
+          <Row
+            className="border-bottom py-2 mt-3 fw-bold justify-content-between"
+            md="auto">
+            <Col>Product</Col>
+            <Col>Description</Col>
+            <Col>Quantity</Col>
+            <Col className="text-center">Subtotal</Col>
+          </Row>
+          {!items[0] && (
+            <Container>
+              <Row className="text-center mt-5 mb-2">
+                <Col>Your Shopping cart is currently empty</Col>
+              </Row>
+              <Row className="text-center">
+                <Col>
+                  <button
+                    onClick={() => navigate('/')}
+                    className="border-1 rounded px-3 py-2">
+                    Continue Shopping
+                  </button>
+                </Col>
+              </Row>
+            </Container>
+          )}
+          {items.map((item, index) => (
+            <Row
+              key={index}
+              className="py-2 border-bottom justify-content-between">
+              <Col className="text-center" xs={2}>
+                <img src={item.productImage} width="100%" />
+              </Col>
+              <Col md={5} xs={5}>
+                <div>{item.productName}</div>
+                <DropdownButton
+                  className="py-3"
+                  id="dropdown-basic-button"
+                  size="sm"
+                  variant="secondary"
+                  title={item.size}>
+                  {sizes.map((size, index) => (
+                    <Dropdown.Item
+                      key={index}
+                      onClick={() =>
+                        updateCart(item.cartId, size, item.quantity)
+                      }>
+                      {size}
+                    </Dropdown.Item>
+                  ))}
+                </DropdownButton>
+              </Col>
               <Col>
-                <button
-                  onClick={() => navigate('/')}
-                  className="border-1 rounded px-3 py-2">
-                  Continue Shopping
-                </button>
+                <DropdownButton
+                  className="py-2"
+                  id="dropdown-basic-button"
+                  size="sm"
+                  variant="secondary"
+                  title={item.quantity}>
+                  {quantities.map((quantity, index) => (
+                    <Dropdown.Item
+                      key={index}
+                      onClick={() =>
+                        updateCart(item.cartId, item.size, quantity)
+                      }>
+                      {quantity}
+                    </Dropdown.Item>
+                  ))}
+                </DropdownButton>
+              </Col>
+              <Col className="d-flex flex-column justify-content-between align-items-end">
+                <div>{`$${(item.price * item.quantity).toFixed(2)}`}</div>
+                <a
+                  href="#"
+                  onClick={() => deleteCart(item.cartId)}
+                  className="link-dark">
+                  Remove
+                </a>
               </Col>
             </Row>
-          </Container>
-        )}
-        {items.map((item, index) => (
-          <Row key={index} className="py-2 border-bottom ">
-            <Col className="text-center">
-              <img src={item.productImage} width="80%" />
-            </Col>
-            <Col xs={5}>
-              <div>{item.productName}</div>
-              <DropdownButton
-                className="py-3"
-                id="dropdown-basic-button"
-                size="sm"
-                variant="secondary"
-                title={item.size}>
-                {sizes.map((size, index) => (
-                  <Dropdown.Item
-                    key={index}
-                    onClick={() =>
-                      updateCart(item.cartId, size, item.quantity)
-                    }>
-                    {size}
-                  </Dropdown.Item>
-                ))}
-              </DropdownButton>
-            </Col>
-            <Col>
-              <DropdownButton
-                className="py-2"
-                id="dropdown-basic-button"
-                size="sm"
-                variant="secondary"
-                title={item.quantity}>
-                {quantities.map((quantity, index) => (
-                  <Dropdown.Item
-                    key={index}
-                    onClick={() =>
-                      updateCart(item.cartId, item.size, quantity)
-                    }>
-                    {quantity}
-                  </Dropdown.Item>
-                ))}
-              </DropdownButton>
-            </Col>
-            <Col className="d-flex flex-column justify-content-between align-items-center">
-              <div>{`$${(item.price * item.quantity).toFixed(2)}`}</div>
-              <a
-                href="#"
-                onClick={() => deleteCart(item.cartId)}
-                className="link-dark">
-                Remove
-              </a>
-            </Col>
-          </Row>
-        ))}
-      </div>
-      <div className="col-4">
-        <h3 className="mb-4">Order Summary</h3>
-        <div className="d-flex flex-column">
-          <div className="d-flex">
-            <div className="me-auto">{`Subtotal (${items.length} items)`}</div>
-            <div>{`$${subtotal.toFixed(2)}`}</div>
+          ))}
+        </Col>
+        <Col lg={4} className="my-4">
+          <h3 className="mb-4">Order Summary</h3>
+          <div className="d-flex flex-column">
+            <div className="d-flex">
+              <div className="me-auto">{`Subtotal (${items.length} items)`}</div>
+              <div>{`$${subtotal.toFixed(2)}`}</div>
+            </div>
+            <div className="d-flex py-3">
+              <div className="me-auto">Taxes</div>
+              <div>{`$${taxes.toFixed(2)}`}</div>
+            </div>
+            <div className="d-flex py-4 border-top">
+              <h4 className="me-auto">Total</h4>
+              <div>{`$${total.toFixed(2)}`}</div>
+            </div>
+            <button
+              style={{ height: '3rem' }}
+              onClick={handleCheckout}
+              className="border-1 rounded">
+              Checkout
+            </button>
           </div>
-          <div className="d-flex py-3">
-            <div className="me-auto">Taxes</div>
-            <div>{`$${taxes.toFixed(2)}`}</div>
-          </div>
-          <div className="d-flex py-4 border-top">
-            <h4 className="me-auto">Total</h4>
-            <div>{`$${total.toFixed(2)}`}</div>
-          </div>
-          <button style={{ height: '3rem' }} onClick={handleCheckout}>
-            Checkout
-          </button>
-        </div>
-      </div>
-    </div>
+        </Col>
+      </Row>
+    </Container>
   );
 }
