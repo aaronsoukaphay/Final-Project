@@ -107,7 +107,7 @@ export default function ProductDetails() {
               className="img-fluid"
               width="70%"></img>
           </Col>
-          <Col className="d-flex flex-column justify-content-evenly">
+          <Col className="d-flex flex-column justify-content-evenly mb-5">
             <h3 className="my-4 heading fs-4">{product.productName}</h3>
             <p className="heading">{`Price: $${product.price}.00`}</p>
             <div className="bg-light p-4">
