@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from 'react';
 import './ProductDetails.css';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Dropdown, DropdownButton } from 'react-bootstrap';
+import { Dropdown, DropdownButton, Row, Col, Container } from 'react-bootstrap';
 import CartContext from './CartContext';
 
 export default function ProductDetails() {
@@ -99,19 +99,19 @@ export default function ProductDetails() {
 
   return (
     <>
-      <div className="container">
-        <div className="d-flex mt-5">
-          <div className="d-flex justify-content-center">
+      <Container>
+        <Row className="mt-4">
+          <Col className="d-flex justify-content-center" md={5}>
             <img
               src={product.productImage}
               className="img-fluid"
               width="70%"></img>
-          </div>
-          <div className="d-flex flex-column justify-content-evenly">
-            <div className="mb-4 heading fs-4">{product.productName}</div>
-            <div className="heading">{`Price: $${product.price}.00`}</div>
+          </Col>
+          <Col className="d-flex flex-column justify-content-evenly">
+            <h3 className="my-4 heading fs-4">{product.productName}</h3>
+            <p className="heading">{`Price: $${product.price}.00`}</p>
             <div className="bg-light p-4">
-              <div className="py-2 subheading">Size</div>
+              <h5 className="py-2 subheading m-0">Size</h5>
               <div>
                 {sizes.map((s, index) => (
                   <button
@@ -125,30 +125,34 @@ export default function ProductDetails() {
                   </button>
                 ))}
               </div>
-              <div className="py-2 subheading">Quantity</div>
-              <div className="d-flex justify-content-between">
-                <DropdownButton
-                  id="dropdown-basic-button"
-                  title={quantity}
-                  variant="secondary">
-                  {quantities.map((quantity, index) => (
-                    <Dropdown.Item
-                      key={index}
-                      onClick={() => setQuantity(quantity)}>
-                      {quantity}
-                    </Dropdown.Item>
-                  ))}
-                </DropdownButton>
-                <button
-                  style={{ width: '300px', height: '3rem' }}
-                  onClick={() => addToCart(cartInfo)}>
-                  Add to cart
-                </button>
-              </div>
+              <h5 className="py-2 m-0 subheading">Quantity</h5>
+              <Row className="justify-content-between">
+                <Col>
+                  <DropdownButton
+                    id="dropdown-basic-button"
+                    title={quantity}
+                    variant="secondary">
+                    {quantities.map((quantity, index) => (
+                      <Dropdown.Item
+                        key={index}
+                        onClick={() => setQuantity(quantity)}>
+                        {quantity}
+                      </Dropdown.Item>
+                    ))}
+                  </DropdownButton>
+                </Col>
+                <Col xs={8} lg={8}>
+                  <button
+                    className="border-1 rounded w-100 py-1"
+                    onClick={() => addToCart(cartInfo)}>
+                    Add to cart
+                  </button>
+                </Col>
+              </Row>
             </div>
-          </div>
-        </div>
-      </div>
+          </Col>
+        </Row>
+      </Container>
     </>
   );
 }
