@@ -16,9 +16,11 @@ export default function Checkout() {
       <Row className="text-center">
         <h1>Thank you for your purchase!</h1>
         <p>Your order number is: 0002349870128</p>
-        <Col>
+      </Row>
+      <Row className="justify-content-center">
+        <Col lg={6} className="text-center">
           <button
-            className="w-25 rounded border-1 py-1"
+            className="rounded border-1 py-1 px-3"
             onClick={() => navigate('/')}>
             Continue Shopping
           </button>
