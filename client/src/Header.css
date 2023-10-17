@@ -3,12 +3,8 @@
   font-family: Graduate, serif;
 }
 
-.topBannerName {
-  font-size: 1rem;
-}
-
-.pageNameTop {
-  font-family: Graduate, serif;
+.topBannerName,
+.account {
   font-size: 1rem;
 }
 
@@ -19,10 +15,6 @@
 
 .searchBar:focus {
   outline: none;
-}
-
-.account {
-  font-size: 1rem;
 }
 
 .cart {

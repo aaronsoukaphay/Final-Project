@@ -124,7 +124,7 @@ function BottomBanner({ team, handleSubmit }) {
             {team ? (
               <img src={team.teamLogo} className="img-fluid" width="50%" />
             ) : (
-              <h2 className="bottomBannerName">touchdown threads</h2>
+              <h2 className="bottomBannerName m-2">touchdown threads</h2>
             )}
           </Col>
           <Col className="d-flex justify-content-center" xs={12}>

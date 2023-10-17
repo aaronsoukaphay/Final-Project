@@ -10,7 +10,7 @@ export default function ProductDetails() {
   const [product, setProduct] = useState<any>({});
   const [error, setError] = useState<any>();
   const [size, setSize] = useState('');
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(1);
   const sizes = ['XS', 'S', 'M', 'L', 'XL'];
   const quantities = [1, 2, 3, 4, 5];
   const navigate = useNavigate();
@@ -111,7 +111,7 @@ export default function ProductDetails() {
             <h3 className="my-4 heading fs-4">{product.productName}</h3>
             <p className="heading">{`Price: $${product.price}.00`}</p>
             <div className="bg-light p-4">
-              <h5 className="py-2 subheading m-0">Size</h5>
+              <p className="py-2 subheading m-0">Size</p>
               <div>
                 {sizes.map((s, index) => (
                   <button
@@ -125,7 +125,7 @@ export default function ProductDetails() {
                   </button>
                 ))}
               </div>
-              <h5 className="py-2 m-0 subheading">Quantity</h5>
+              <p className="py-2 m-0 subheading">Quantity</p>
               <Row className="justify-content-between">
                 <Col>
                   <DropdownButton
@@ -143,7 +143,7 @@ export default function ProductDetails() {
                 </Col>
                 <Col xs={8} lg={8}>
                   <button
-                    className="border-1 rounded w-100 py-1"
+                    className="border-1 rounded w-100 py-1 button"
                     onClick={() => addToCart(cartInfo)}>
                     Add to cart
                   </button>
