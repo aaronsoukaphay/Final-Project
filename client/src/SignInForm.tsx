@@ -27,7 +27,9 @@ export default function SignInForm() {
       const { user, token } = await res.json();
       localStorage.setItem('token', token);
       setToken(token);
-      if (token) navigate('/');
+      if (token) {
+        navigate('/');
+      }
       console.log('Signed In', user, '; received token:', token);
     } catch (err) {
       alert(`Invalid username or password.`);
@@ -52,7 +54,9 @@ export default function SignInForm() {
       const { user, token } = await response.json();
       localStorage.setItem('token', token);
       setToken(token);
-      if (token) navigate('/');
+      if (token) {
+        navigate(-2);
+      }
       console.log('Signed In', user, '; received token:', token);
     } catch (err) {
       alert(`Invalid username or password.`);

@@ -106,10 +106,6 @@ export default function ProductDetails() {
     }
   }
 
-  function handleSize(size) {
-    setSize(size);
-  }
-
   return (
     <>
       <Container>
@@ -133,7 +129,7 @@ export default function ProductDetails() {
                     }}
                     key={index}
                     className="px-2 me-4 border-1 rounded button"
-                    onClick={() => handleSize(s)}>
+                    onClick={() => setSize(s)}>
                     {s}
                   </button>
                 ))}
