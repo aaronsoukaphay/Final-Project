@@ -6,12 +6,13 @@ import { Row, Col, Container } from 'react-bootstrap';
 import './Header.css';
 import { useEffect, useState, useContext } from 'react';
 import CartContext from './CartContext';
+import { Team } from './Catalog';
 
 export default function Header() {
-  const { teamId } = useParams();
-  const [team, setTeam] = useState();
-  const [error, setError] = useState<any>();
   const { items, setToken } = useContext(CartContext);
+  const { teamId } = useParams();
+  const [team, setTeam] = useState<Team>();
+  const [error, setError] = useState<unknown>();
   const navigate = useNavigate();
 
   let totalQuantity = 0;
@@ -124,7 +125,7 @@ function BottomBanner({ team, handleSubmit }) {
             {team ? (
               <img src={team.teamLogo} className="img-fluid" width="50%" />
             ) : (
-              <h2 className="bottomBannerName">touchdown threads</h2>
+              <h2 className="bottomBannerName m-2">touchdown threads</h2>
             )}
           </Col>
           <Col className="d-flex justify-content-center" xs={12}>

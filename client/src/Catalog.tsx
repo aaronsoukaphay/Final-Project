@@ -3,12 +3,32 @@ import { Card, Row, Col, Container } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import './Catalog.css';
 
+export type Product = {
+  category: string;
+  gender: string;
+  playerId: number;
+  price: number;
+  productId: number;
+  productImage: string;
+  productName: string;
+  teamId: number;
+};
+
+export type Team = {
+  bannerColor: string;
+  navColor: string;
+  teamIcon: string;
+  teamId: number;
+  teamLogo: string;
+  teamName: string;
+};
+
 export default function Catalog() {
-  const [products, setProducts] = useState<any>([]);
-  const [error, setError] = useState<any>();
-  const [team, setTeam] = useState<any>();
+  const [products, setProducts] = useState<Product[]>([]);
+  const [error, setError] = useState<unknown>();
+  const [team, setTeam] = useState<Team>();
   const { teamId, category, searchQuery } = useParams();
-  const [inStock, setInStock] = useState(true);
+  const [inStock, setInStock] = useState<boolean>(true);
 
   useEffect(() => {
     async function getProducts() {

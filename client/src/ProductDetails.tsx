@@ -3,17 +3,30 @@ import './ProductDetails.css';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Dropdown, DropdownButton, Row, Col, Container } from 'react-bootstrap';
 import CartContext from './CartContext';
+import { Product } from './Catalog';
+
+const defaultProduct = {
+  category: '',
+  gender: '',
+  playerId: 0,
+  price: 0,
+  productId: 0,
+  productImage: '',
+  productName: '',
+  teamId: 0,
+};
 
 export default function ProductDetails() {
   const { items, setItems } = useContext(CartContext);
   const { productId } = useParams();
-  const [product, setProduct] = useState<any>({});
-  const [error, setError] = useState<any>();
-  const [size, setSize] = useState('');
-  const [quantity, setQuantity] = useState(0);
+  const [product, setProduct] = useState<Product>(defaultProduct);
+  const [error, setError] = useState<unknown>();
+  const [size, setSize] = useState<string>('');
+  const [quantity, setQuantity] = useState<number>(1);
+  const navigate = useNavigate();
+
   const sizes = ['XS', 'S', 'M', 'L', 'XL'];
   const quantities = [1, 2, 3, 4, 5];
-  const navigate = useNavigate();
 
   useEffect(() => {
     async function getProductDetails() {
@@ -93,10 +106,6 @@ export default function ProductDetails() {
     }
   }
 
-  function handleSize(size) {
-    setSize(size);
-  }
-
   return (
     <>
       <Container>
@@ -111,7 +120,7 @@ export default function ProductDetails() {
             <h3 className="my-4 heading fs-4">{product.productName}</h3>
             <p className="heading">{`Price: $${product.price}.00`}</p>
             <div className="bg-light p-4">
-              <h5 className="py-2 subheading m-0">Size</h5>
+              <p className="py-2 subheading m-0">Size</p>
               <div>
                 {sizes.map((s, index) => (
                   <button
@@ -120,12 +129,12 @@ export default function ProductDetails() {
                     }}
                     key={index}
                     className="px-2 me-4 border-1 rounded button"
-                    onClick={() => handleSize(s)}>
+                    onClick={() => setSize(s)}>
                     {s}
                   </button>
                 ))}
               </div>
-              <h5 className="py-2 m-0 subheading">Quantity</h5>
+              <p className="py-2 m-0 subheading">Quantity</p>
               <Row className="justify-content-between">
                 <Col>
                   <DropdownButton
@@ -143,7 +152,7 @@ export default function ProductDetails() {
                 </Col>
                 <Col xs={8} lg={8}>
                   <button
-                    className="border-1 rounded w-100 py-1"
+                    className="border-1 rounded w-100 py-1 button"
                     onClick={() => addToCart(cartInfo)}>
                     Add to cart
                   </button>
