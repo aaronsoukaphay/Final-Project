@@ -5,7 +5,7 @@ import './SignInForm.css';
 import CartContext from './CartContext';
 
 export default function SignInForm() {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
   const { setToken } = useContext(CartContext);
 

@@ -22,7 +22,7 @@ export default function Cart() {
     );
   }
 
-  async function updateCart(cartId, size, quantity) {
+  async function updateCart(cartId: number, size: string, quantity: number) {
     try {
       const request = {
         method: 'PUT',
@@ -46,7 +46,7 @@ export default function Cart() {
     }
   }
 
-  async function deleteCart(cartId) {
+  async function deleteCart(cartId: number) {
     try {
       const request = {
         method: 'DELETE',
@@ -87,7 +87,7 @@ export default function Cart() {
 
   return (
     <Container>
-      <Row className="mt-3 justify-content-between">
+      <Row className="mt-3 justify-content-between mb-5">
         <Col lg={7}>
           <h2>Order Details</h2>
           <div>Thank you for shopping with us!</div>

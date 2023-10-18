@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Button, Row, Col, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { Team } from './Catalog';
 
 export default function Home() {
-  const [logos, setLogos] = useState<any>([]);
-  const [error, setError] = useState<any>();
+  const [logos, setLogos] = useState<Team[]>([]);
+  const [error, setError] = useState<unknown>();
 
   useEffect(() => {
     async function getTeamLogos() {

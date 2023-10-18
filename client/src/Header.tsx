@@ -6,12 +6,13 @@ import { Row, Col, Container } from 'react-bootstrap';
 import './Header.css';
 import { useEffect, useState, useContext } from 'react';
 import CartContext from './CartContext';
+import { Team } from './Catalog';
 
 export default function Header() {
-  const { teamId } = useParams();
-  const [team, setTeam] = useState();
-  const [error, setError] = useState<any>();
   const { items, setToken } = useContext(CartContext);
+  const { teamId } = useParams();
+  const [team, setTeam] = useState<Team>();
+  const [error, setError] = useState<unknown>();
   const navigate = useNavigate();
 
   let totalQuantity = 0;

@@ -4,7 +4,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import './RegistrationForm.css';
 
 export default function RegistrationForm() {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {

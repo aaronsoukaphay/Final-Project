@@ -3,17 +3,30 @@ import './ProductDetails.css';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Dropdown, DropdownButton, Row, Col, Container } from 'react-bootstrap';
 import CartContext from './CartContext';
+import { Product } from './Catalog';
+
+const defaultProduct = {
+  category: '',
+  gender: '',
+  playerId: 0,
+  price: 0,
+  productId: 0,
+  productImage: '',
+  productName: '',
+  teamId: 0,
+};
 
 export default function ProductDetails() {
   const { items, setItems } = useContext(CartContext);
   const { productId } = useParams();
-  const [product, setProduct] = useState<any>({});
-  const [error, setError] = useState<any>();
-  const [size, setSize] = useState('');
-  const [quantity, setQuantity] = useState(1);
+  const [product, setProduct] = useState<Product>(defaultProduct);
+  const [error, setError] = useState<unknown>();
+  const [size, setSize] = useState<string>('');
+  const [quantity, setQuantity] = useState<number>(1);
+  const navigate = useNavigate();
+
   const sizes = ['XS', 'S', 'M', 'L', 'XL'];
   const quantities = [1, 2, 3, 4, 5];
-  const navigate = useNavigate();
 
   useEffect(() => {
     async function getProductDetails() {
