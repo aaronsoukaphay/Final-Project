@@ -11,6 +11,11 @@
 .navName {
   font-family: 'Noto Sans', sans-serif;
   font-weight: 800;
+  color: white;
+}
+
+.navName:hover {
+  color: #dadbdc;
 }
 
 .searchBar:focus {

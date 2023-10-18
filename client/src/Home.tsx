@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Button, Row, Col, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { Team } from './Catalog';
+import './Home.css';
 
 export default function Home() {
   const [logos, setLogos] = useState<Team[]>([]);
@@ -41,7 +42,7 @@ export default function Home() {
           {logos.map((logo, index) => (
             <Col key={index} className="text-center" lg={1} xs={2}>
               <a href={`/catalog/teams/${logo.teamId}`}>
-                {<img src={logo.teamIcon} className="img-fluid" />}
+                {<img src={logo.teamIcon} className="img-fluid logo" />}
               </a>
             </Col>
           ))}

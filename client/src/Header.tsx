@@ -154,13 +154,13 @@ function NavBar({ team }) {
     <div style={{ backgroundColor: backgroundColor }}>
       <Container>
         <Row
-          className="py-2 navName text-uppercase justify-content-evenly align-items-center"
+          className="py-2 text-uppercase justify-content-evenly align-items-center"
           md="auto">
           {navItems.map((navItem, index) => (
             <Col className="text-center" key={index}>
               <a
                 href={navItem === 'home' ? '/' : `/catalog/${navItem}`}
-                className="text-decoration-none text-light">
+                className="text-decoration-none navName">
                 {navItem}
               </a>
             </Col>
