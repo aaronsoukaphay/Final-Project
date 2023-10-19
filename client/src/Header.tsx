@@ -85,7 +85,7 @@ export default function Header() {
 function TopBanner({ team, handleAccount, quantity }) {
   return (
     <Row className="justify-content-between align-items-center py-2 mx-3">
-      <Col xs={7}>
+      <Col xs={7} className="pe-0">
         {team && <h3 className="topBannerName my-0">TOUCHDOWN THREADS</h3>}
       </Col>
       <Col className="px-2 d-flex justify-content-end">
@@ -128,15 +128,13 @@ function BottomBanner({ team, handleSubmit }) {
           </Col>
           <Col className="d-flex justify-content-center" xs={12}>
             <form onSubmit={handleSubmit}>
+              <FaSearch className="me-2" />
               <input
                 placeholder="Search products..."
                 name="search"
                 type="search"
-                className="p-1 rounded-start border-1 border-black searchBar"
+                className="p-1 rounded border-1 border-black searchBar"
               />
-              <button className="py-1 px-2 rounded-end border-1 border-black">
-                <FaSearch />
-              </button>
             </form>
           </Col>
         </Row>

@@ -90,21 +90,25 @@ export default function Cart() {
       <Row className="mt-3 justify-content-between mb-5">
         <Col lg={7}>
           <h2>Order Details</h2>
-          <div>Thank you for shopping with us!</div>
-          <Row
-            className="border-bottom py-2 mt-3 fw-bold justify-content-between"
-            md="auto">
-            <Col>Product</Col>
-            <Col>Description</Col>
-            <Col>Quantity</Col>
+          <div className="mb-2">Thank you for shopping with us!</div>
+          <Row className="border-bottom py-2 mt-3 fw-bold text-center justify-content-between d-none d-sm-flex">
+            <Col xs={3} sm={2} lg={2}>
+              Product
+            </Col>
+            <Col xs={5} md={5} lg={6}>
+              Description
+            </Col>
+            <Col xs={1} lg={2}>
+              Quantity
+            </Col>
             <Col className="text-center">Subtotal</Col>
           </Row>
           {!items[0] && (
-            <Container>
-              <Row className="text-center mt-5 mb-2">
+            <Container className="my-4">
+              <Row className="text-center">
                 <Col>Your Shopping cart is currently empty</Col>
               </Row>
-              <Row className="text-center">
+              <Row className="text-center mt-2">
                 <Col>
                   <button
                     onClick={() => navigate('/')}
@@ -119,10 +123,14 @@ export default function Cart() {
             <Row
               key={index}
               className="py-2 border-bottom justify-content-between">
-              <Col className="text-center" xs={2}>
+              <Col
+                className="text-center align-self-center"
+                xs={3}
+                sm={2}
+                lg={2}>
                 <img src={item.productImage} width="100%" />
               </Col>
-              <Col md={5} xs={5}>
+              <Col xs={5} md={5} lg={6} className="p-0 ps-2">
                 <div>{item.productName}</div>
                 <DropdownButton
                   className="py-3"
@@ -141,9 +149,9 @@ export default function Cart() {
                   ))}
                 </DropdownButton>
               </Col>
-              <Col>
+              <Col xs={1} lg={2} className="p-0">
                 <DropdownButton
-                  className="py-2"
+                  className="py-2 text-center"
                   id="dropdown-basic-button"
                   size="sm"
                   variant="secondary"
@@ -159,7 +167,7 @@ export default function Cart() {
                   ))}
                 </DropdownButton>
               </Col>
-              <Col className="d-flex flex-column justify-content-between align-items-end">
+              <Col className="d-flex flex-column justify-content-between align-items-center">
                 <div>{`$${(item.price * item.quantity).toFixed(2)}`}</div>
                 <a
                   href="#"
