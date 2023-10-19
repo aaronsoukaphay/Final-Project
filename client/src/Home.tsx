@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Button, Row, Col, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { Team } from './Catalog';
+import './Home.css';
 
 export default function Home() {
   const [logos, setLogos] = useState<Team[]>([]);
@@ -32,40 +33,42 @@ export default function Home() {
   }
 
   return (
-    <>
-      <div className="text-center my-3">
-        <h3>Shop Your Favorite Teams!</h3>
-      </div>
-      <Container>
+    <Container fluid>
+      <Container fluid>
+        <div className="text-center my-3">
+          <h3>Shop Your Favorite Teams!</h3>
+        </div>
         <Row className="justify-content-evenly">
           {logos.map((logo, index) => (
-            <Col key={index} className="text-center" lg={1} xs={2}>
+            <Col key={index} className="text-center" lg={1} md={1} xs={2}>
               <a href={`/catalog/teams/${logo.teamId}`}>
-                {<img src={logo.teamIcon} className="img-fluid" />}
+                {<img src={logo.teamIcon} className="img-fluid logo" />}
               </a>
             </Col>
           ))}
         </Row>
+        <Row>
+          <Col className="mt-3 p-0" md={8}>
+            <img src="/images/gameday-banner.jpeg" className="img-fluid" />
+          </Col>
+          <Col className="mt-3 bg-dark text-white p-4">
+            <h4>FOOTBALL IS BACK!</h4>
+            <p className="fs-6">
+              Get ready for the new season with the latest and greatest in NFL
+              gear! Shop jerseys for the whole family and rep your team this
+              season in style!
+            </p>
+            <Link to="/catalog/jerseys">
+              <Button>Shop NFL Jerseys</Button>
+            </Link>
+          </Col>
+        </Row>
+        <Row className="my-3">
+          <Col className="p-0">
+            <img src="/images/dress-like-the-pros.webp" className="img-fluid" />
+          </Col>
+        </Row>
       </Container>
-      <Row className="p-4">
-        <Col className="p-0" md={8}>
-          <img src="/images/gameday-banner.jpeg" className="img-fluid" />
-        </Col>
-        <Col className="bg-dark text-white p-3">
-          <h4>FOOTBALL IS BACK!</h4>
-          <p className="fs-6">
-            Get ready for the new season with the latest and greatest in NFL
-            gear! Shop jerseys for the whole family and rep your team this
-            season in style!
-          </p>
-          <Link to="/catalog/jerseys">
-            <Button>Shop NFL Jerseys</Button>
-          </Link>
-        </Col>
-      </Row>
-      <Row className="mb-5">
-        <img src="/images/dress-like-the-pros.webp" className="img-fluid" />
-      </Row>
-    </>
+    </Container>
   );
 }
