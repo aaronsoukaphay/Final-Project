@@ -1,6 +1,46 @@
-# final-project
+# Touchdown Threads
 
-A full stack JavaScript solo project.
+A full stack web application for NFL enthusiasts who want to shop for football apparel.
+
+## Why I Built This
+
+This project was inspired by my passion for football. During the season, Sunday football is something I look forward to each and every week. I thought it would be fun to combine my passions for football and coding to create a web application for football enthusiasts like me.
+
+## Live Demo
+
+http://final-project-dev.us-west-1.elasticbeanstalk.com/
+
+## Technologies Used
+
+- Typescript
+- React.js
+- Node.js
+- Express.js
+- PostgreSQL
+- DbDiagram
+- Bootstrap 5
+- HTML5
+- CSS3
+- AWS Elastic Beanstalk
+- Figma
+
+## Features
+
+1. Users can view products filtered by a specific team or category
+2. Users can search for products
+3. Users can add products to shopping cart
+4. Users can list products in shopping cart
+5. Users can update size and quantity of products in shopping cart
+6. Users can remove products from shopping cart
+
+![Alt text](<Kapture 2023-10-19 at 13.46.10.gif>)
+
+![Alt text](<Kapture 2023-10-19 at 13.48.49.gif>)
+
+## Stretch Features
+
+1. User can view most popular players on a team
+2. User can view products from a specific player
 
 ## Getting Started
 
