@@ -84,14 +84,12 @@ export default function Header() {
 
 function TopBanner({ team, handleAccount, quantity }) {
   return (
-    <Row
-      className="justify-content-between align-items-center py-2 mx-3"
-      md="auto">
+    <Row className="justify-content-between align-items-center py-2 mx-3">
       <Col xs={7}>
         {team && <h3 className="topBannerName my-0">TOUCHDOWN THREADS</h3>}
       </Col>
       <Col className="px-2 d-flex justify-content-end">
-        <a href="#" onClick={handleAccount} className="text-dark px-4">
+        <a href="#" onClick={handleAccount} className="text-dark me-3">
           <p className="m-0 account">
             {localStorage.getItem('token') ? 'Sign Out' : 'Sign In'}
           </p>
