@@ -130,8 +130,8 @@ export default function Cart() {
                 lg={2}>
                 <img src={item.productImage} width="100%" />
               </Col>
-              <Col xs={5} md={5} lg={6} className="p-0 ps-2">
-                <div>{item.productName}</div>
+              <Col xs={5} md={5} lg={6} className="p-0">
+                <p className="m-0">{item.productName}</p>
                 <DropdownButton
                   className="py-3"
                   id="dropdown-basic-button"
