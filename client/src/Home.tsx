@@ -33,14 +33,14 @@ export default function Home() {
   }
 
   return (
-    <Container fluid>
+    <Container fluid="xxl">
       <Container fluid>
         <div className="text-center my-3">
           <h3>Shop Your Favorite Teams!</h3>
         </div>
         <Row className="justify-content-evenly">
           {logos.map((logo, index) => (
-            <Col key={index} className="text-center" lg={1} md={1} xs={2}>
+            <Col key={index} className="text-center" xs={2} md={2} lg={1}>
               <a href={`/catalog/teams/${logo.teamId}`}>
                 {<img src={logo.teamIcon} className="img-fluid logo" />}
               </a>
@@ -48,7 +48,7 @@ export default function Home() {
           ))}
         </Row>
         <Row>
-          <Col className="mt-3 p-0" md={8}>
+          <Col className="mt-3 p-0" md={12} lg={8}>
             <img src="/images/gameday-banner.jpeg" className="img-fluid" />
           </Col>
           <Col className="mt-3 bg-dark text-white p-4">
@@ -65,7 +65,10 @@ export default function Home() {
         </Row>
         <Row className="my-3">
           <Col className="p-0">
-            <img src="/images/dress-like-the-pros.webp" className="img-fluid" />
+            <img
+              src="/images/dress-like-the-pros.webp"
+              className="img-fluid w-100"
+            />
           </Col>
         </Row>
       </Container>

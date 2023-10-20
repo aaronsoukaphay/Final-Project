@@ -291,12 +291,6 @@ VALUES
     (1, 16, 'women', '/images/women/chiefs-zip-up.webp', 'Antigua Kansas City Chiefs Womens Red Generation Light Weight Jacket', 90, 'Female'),
     (1, 7, 'women', '/images/women/bengals-crewneck.jpeg', 'Cincinnati Bengals Womens Grey Burnout Crew Sweatshirt', 80, 'Female');
 
--- Insert data into the "carts" table
-INSERT INTO carts ("customerId", "productId", "size", "quantity")
-VALUES
-    (2, 3, 'M', 2),
-    (2, 5, 'S', 1);
-
 INSERT INTO customers ("username", "hashedPassword")
 VALUES
     ('guest', '$argon2id$v=19$m=4096,t=3,p=1$UpQKYjqJP7x+HTXC0D9eDg$+6n+VUBfBm/CCBT1HqjhB9W6FvSuieHw8Pc3qAhW3Ew');

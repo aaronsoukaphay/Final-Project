@@ -15,6 +15,9 @@ export default function Cart() {
   const taxes = subtotal * 0.0725;
   const total = subtotal + taxes;
 
+  let totalQuantity = 0;
+  items.forEach((item) => (totalQuantity += item.quantity));
+
   if (error) {
     console.error('Fetch error:', error);
     return (
@@ -183,7 +186,11 @@ export default function Cart() {
           <h3 className="mb-4">Order Summary</h3>
           <div className="d-flex flex-column">
             <div className="d-flex">
-              <div className="me-auto">{`Subtotal (${items.length} items)`}</div>
+              <div className="me-auto">
+                Subtotal
+                {totalQuantity > 0 &&
+                  ` (${totalQuantity} ${totalQuantity > 1 ? 'items' : 'item'})`}
+              </div>
               <div>{`$${subtotal.toFixed(2)}`}</div>
             </div>
             <div className="d-flex py-3">
