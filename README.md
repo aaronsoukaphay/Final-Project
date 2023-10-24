@@ -39,8 +39,8 @@ http://final-project-dev.us-west-1.elasticbeanstalk.com/
 
 ## Stretch Features
 
-1. User can view most popular players on a team
-2. User can view products from a specific player
+1. Users can view most popular players on a team
+2. Users can view products from a specific player
 
 ## Getting Started
 
