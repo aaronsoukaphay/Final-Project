@@ -89,7 +89,7 @@ export default function Catalog() {
   }
 
   return (
-    <>
+    <Container fluid>
       <div className="p-4">
         <h3 className="catalogHeading text-uppercase">
           {team ? team.teamName : category ? category : 'search results'}
@@ -100,38 +100,36 @@ export default function Catalog() {
           searchQuery ? searchQuery : category
         }`}</p>
       )}
-      <Container>
-        <Row>
-          {products.map((product, index) => (
-            <Col
-              key={index}
-              lg={3}
-              md={4}
-              xs={6}
-              className="d-flex justify-content-center">
-              <a
-                href={`/details/${product.productId}`}
-                className="text-decoration-none d-flex justify-content-center mb-5">
-                <Card style={{ width: '100%' }} className="card border-0">
-                  <Card.Img
-                    variant="top"
-                    src={product.productImage}
-                    className="w-75 mt-3 align-self-center"
-                  />
-                  <Card.Body>
-                    <Card.Title className="card-text">
-                      {product.productName}
-                    </Card.Title>
-                    <Card.Text>{`Price: $${product.price.toFixed(
-                      2
-                    )}`}</Card.Text>
-                  </Card.Body>
-                </Card>
-              </a>
-            </Col>
-          ))}
-        </Row>
-      </Container>
-    </>
+      <Row>
+        {products.map((product, index) => (
+          <Col
+            key={index}
+            xl={2}
+            lg={3}
+            md={4}
+            sm={4}
+            xs={6}
+            className="d-flex justify-content-center">
+            <a
+              href={`/details/${product.productId}`}
+              className="text-decoration-none d-flex justify-content-center mb-5">
+              <Card style={{ width: '100%' }} className="card border-0">
+                <Card.Img
+                  variant="top"
+                  src={product.productImage}
+                  className="w-75 mt-3 align-self-center"
+                />
+                <Card.Body>
+                  <Card.Title className="card-text">
+                    {product.productName}
+                  </Card.Title>
+                  <Card.Text>{`Price: $${product.price.toFixed(2)}`}</Card.Text>
+                </Card.Body>
+              </Card>
+            </a>
+          </Col>
+        ))}
+      </Row>
+    </Container>
   );
 }

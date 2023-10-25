@@ -84,30 +84,36 @@ export default function Header() {
 
 function TopBanner({ team, handleAccount, quantity }) {
   return (
-    <Row className="justify-content-between align-items-center py-2 mx-3">
-      <Col xs={7} className="pe-0">
-        {team && <h3 className="topBannerName my-0">TOUCHDOWN THREADS</h3>}
-      </Col>
-      <Col className="px-2 d-flex justify-content-end">
-        <a href="#" onClick={handleAccount} className="text-dark me-3">
-          <p className="m-0 account">
-            {localStorage.getItem('token') ? 'Sign Out' : 'Sign In'}
-          </p>
-        </a>
-        {localStorage.getItem('token') && (
-          <Link to={`/cart`}>
-            <div className="cart">
-              <BsCart style={{ color: 'black' }} size={20} />
-              {quantity > 0 && (
-                <div className="cartNumber text-decoration-none">
-                  {quantity}
-                </div>
-              )}
-            </div>
-          </Link>
-        )}
-      </Col>
-    </Row>
+    <Container fluid>
+      <Row className="justify-content-between align-items-center py-2 mx-3">
+        <Col xs={7} className="px-0">
+          {team && (
+            <a href="/" className="text-decoration-none text-dark">
+              <h3 className="topBannerName my-0">TOUCHDOWN THREADS</h3>
+            </a>
+          )}
+        </Col>
+        <Col className="px-2 d-flex justify-content-end">
+          <a href="#" onClick={handleAccount} className="text-dark me-3">
+            <p className="m-0 account">
+              {localStorage.getItem('token') ? 'Sign Out' : 'Sign In'}
+            </p>
+          </a>
+          {localStorage.getItem('token') && (
+            <Link to={`/cart`}>
+              <div className="cart">
+                <BsCart style={{ color: 'black' }} size={20} />
+                {quantity > 0 && (
+                  <div className="cartNumber text-decoration-none">
+                    {quantity}
+                  </div>
+                )}
+              </div>
+            </Link>
+          )}
+        </Col>
+      </Row>
+    </Container>
   );
 }
 
@@ -115,18 +121,28 @@ function BottomBanner({ team, handleSubmit }) {
   const backgroundColor = team ? team.bannerColor : 'rgb(244,245,245)';
   return (
     <div style={{ backgroundColor: backgroundColor }}>
-      <Container>
+      <Container fluid>
         <Row
-          className="align-items-center py-3 justify-content-center justify-content-md-between"
-          md="auto">
+          className="align-items-center py-2 justify-content-around"
+          xs="auto">
+          {team ? (
+            <Col
+              className="d-flex justify-content-center"
+              xs={6}
+              sm={5}
+              md={4}
+              lg={3}
+              xl={2}>
+              <img src={team.teamLogo} className="img-fluid" width="75%" />
+            </Col>
+          ) : (
+            <Col className="d-flex justify-content-center">
+              <a href="/" className="text-decoration-none text-dark">
+                <h2 className="bottomBannerName m-2">touchdown threads</h2>
+              </a>
+            </Col>
+          )}
           <Col className="d-flex justify-content-center">
-            {team ? (
-              <img src={team.teamLogo} className="img-fluid" width="50%" />
-            ) : (
-              <h2 className="bottomBannerName m-2">touchdown threads</h2>
-            )}
-          </Col>
-          <Col className="d-flex justify-content-center" xs={12}>
             <form onSubmit={handleSubmit}>
               <FaSearch className="me-2" />
               <input
